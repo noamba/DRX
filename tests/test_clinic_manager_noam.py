@@ -41,7 +41,7 @@ def test_task_processing():
 def first_update(inputs, patient_request_manger):
     # This gets open requests for patient1 from the db, after the first update
     patient1_open_pre = get_open_patient_requests("patient1")
-
+    print("patient1_open_pre", patient1_open_pre)
     patient_request_manger.process_tasks_update(inputs[0])
 
     # This gets open requests for patient1 from the db, after the first update
@@ -111,3 +111,5 @@ def get_open_patient_requests(patient_id) -> list[dict] | None:
     return db.patient_requests.search(
         (where("patient_id") == patient_id) & (where("status") == "Open")
     )
+
+    # TODO why can there be more that one open request for the same patient?
