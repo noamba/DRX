@@ -2,3 +2,4 @@ pydantic
 pytest
 tinydb
 tinydb-serialization
+black

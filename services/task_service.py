@@ -6,7 +6,7 @@ import db.db_tinydb as db
 
 from operator import attrgetter
 
-task_date_getter = attrgetter('updated_date')
+task_date_getter = attrgetter("updated_date")
 
 Task = Query()
 
@@ -20,4 +20,7 @@ class TaskService:
             db.tasks.upsert(task.model_dump(), Task.id == task.id)
 
     def get_open_tasks(self) -> Iterable[PatientTask]:
-        return (PatientTask(**task_doc) for task_doc in db.tasks.search(where("status") == 'Open'))
+        return (
+            PatientTask(**task_doc)
+            for task_doc in db.tasks.search(where("status") == "Open")
+        )

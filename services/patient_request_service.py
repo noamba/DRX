@@ -10,14 +10,15 @@ import db.db_tinydb as db
 
 from operator import attrgetter
 
-task_date_getter = attrgetter('updated_date')
+task_date_getter = attrgetter("updated_date")
 
 
 class PerPatientRequestService(PatientRequestService):
 
     def get_open_patient_request(self, patient_id) -> PatientRequest | None:
         result_dict = db.patient_requests.get(
-            (where('patient_id') == patient_id) & (where('status') == 'Open'))
+            (where("patient_id") == patient_id) & (where("status") == "Open")
+        )
 
         if not result_dict:
             return None
@@ -33,8 +34,7 @@ class PerPatientRequestService(PatientRequestService):
 
         for patient_id, patient_tasks in grouped_by_patent.items():
 
-            existing_req: PatientRequest = self.get_open_patient_request(
-                patient_id)
+            existing_req: PatientRequest = self.get_open_patient_request(patient_id)
 
             pat_req = self.to_patient_request(patient_id, patient_tasks)
 
@@ -43,4 +43,5 @@ class PerPatientRequestService(PatientRequestService):
             else:
                 pat_req.id = existing_req.id
                 db.patient_requests.update(
-                    pat_req.model_dump(), where('id') == existing_req.id)
+                    pat_req.model_dump(), where("id") == existing_req.id
+                )

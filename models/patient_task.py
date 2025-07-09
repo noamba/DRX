@@ -8,11 +8,10 @@ class Medication(BaseModel, frozen=True):
     name: str
 
 
-
 class PatientTask(BaseModel):
     id: str
     patient_id: str
-    status: Literal['Open'] | Literal['Closed']
+    status: Literal["Open"] | Literal["Closed"]
     assigned_to: str
     created_date: datetime
     updated_date: datetime

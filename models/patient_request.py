@@ -7,7 +7,7 @@ from .patient_task import Medication
 class PatientRequest(BaseModel):
     id: str
     patient_id: str
-    status: Literal['Open'] | Literal['Closed']
+    status: Literal["Open"] | Literal["Closed"]
     assigned_to: str
     created_date: datetime
     updated_date: datetime

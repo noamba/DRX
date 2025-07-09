@@ -17,41 +17,46 @@ class SetSerializer(Serializer):
     def decode(self, s):
         return set(json.loads(s))
 
+
 serialization = SerializationMiddleware(JSONStorage)
 
-serialization.register_serializer(DateTimeSerializer(), 'TinyDate')
-serialization.register_serializer(SetSerializer(), 'TinySet')
+serialization.register_serializer(DateTimeSerializer(), "TinyDate")
+serialization.register_serializer(SetSerializer(), "TinySet")
 
 clinic = TinyDB("tinydb/db.json", create_dirs=True, storage=serialization)
 # clinic = TinyDB(storage=MemoryStorage)
 
-patient_requests = clinic.table('PatientRequest')
-tasks = clinic.table('Tasks')
+patient_requests = clinic.table("PatientRequest")
+tasks = clinic.table("Tasks")
 # either creates a new database file or accesses an existing one named `my_tiny_database`
 
 
 def init_db():
 
-    print('\n--------------------------------------------\nInitializing the PatientRequest table')
+    print(
+        "\n--------------------------------------------\nInitializing the PatientRequest table"
+    )
 
-    existing_docs = (len(patient_requests))
+    existing_docs = len(patient_requests)
     if existing_docs > 100:
-        print(f'PatientRequest table already initialized with {
-              existing_docs} requests')
+        print(f"PatientRequest table already initialized with {existing_docs} requests")
         return
 
     # Add some closed requests to the patient_requests table
-    generated_requests = [{
-        'id': str(uuid4()),
-        'patient_id': 'patient1',
-        'status': 'Closed',
-        'assigned_to': 'Primary',
-        'created_date': datetime.now(),
-        'updated_date': datetime.now(),
-        'messages': [f'message{i}'],
-        'medications': [{'code': '1234', 'name': 'Advil 200 mg'}],
-    } for i in range(1, 101)]
+    generated_requests = [
+        {
+            "id": str(uuid4()),
+            "patient_id": "patient1",
+            "status": "Closed",
+            "assigned_to": "Primary",
+            "created_date": datetime.now(),
+            "updated_date": datetime.now(),
+            "messages": [f"message{i}"],
+            "medications": [{"code": "1234", "name": "Advil 200 mg"}],
+        }
+        for i in range(1, 101)
+    ]
 
     patient_requests.insert_multiple(generated_requests)
 
-    print(f'Inserted {len(patient_requests)} patient requests')
+    print(f"Inserted {len(patient_requests)} patient requests")
