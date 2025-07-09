@@ -42,6 +42,7 @@ def first_update(inputs, patient_request_manger):
     # This gets open requests for patient1 from the db, after the first update
     patient1_open_pre = get_open_patient_requests("patient1")
     print("patient1_open_pre", patient1_open_pre)
+    # input[0] includes 2 open tasks for patient1
     patient_request_manger.process_tasks_update(inputs[0])
 
     # This gets open requests for patient1 from the db, after the first update
@@ -64,7 +65,9 @@ def first_update(inputs, patient_request_manger):
 
 
 def second_update(inputs, patient_request_manger):
+    # input[1] closes the 2 open tasks for patient1
     patient_request_manger.process_tasks_update(inputs[1])
+
     assert (
         len(get_open_patient_requests("patient1")) == 0
     ), "Error after input 2, the patient1 request should be closed"
