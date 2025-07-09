@@ -12,7 +12,7 @@ class PatientTask(BaseModel):
     id: str
     patient_id: str
     status: Literal["Open"] | Literal["Closed"]
-    assigned_to: str
+    assigned_to: Literal["Dermatology"] | Literal["Radiology"] | Literal["Primary"]
     created_date: datetime
     updated_date: datetime
     message: str
