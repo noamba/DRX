@@ -9,6 +9,7 @@ task_date_getter = attrgetter("updated_date")
 
 
 class PatientRequestService(ABC):
+    """Abstract base class for patient request services."""
 
     @abstractmethod
     def update_requests(self, tasks: list[PatientTask]):
@@ -16,7 +17,7 @@ class PatientRequestService(ABC):
         raise NotImplementedError
 
     def to_patient_request(self, patient_id, patient_tasks):
-
+        """Converts a list of PatientTask objects into a PatientRequest object for the given patient_id."""
         open_tasks: list[PatientTask] = [t for t in patient_tasks if t.status == "Open"]
 
         req_status = "Open" if len(open_tasks) > 0 else "Closed"
