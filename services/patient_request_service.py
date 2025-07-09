@@ -16,6 +16,7 @@ task_date_getter = attrgetter("updated_date")
 class PerPatientRequestService(PatientRequestService):
 
     def get_open_patient_request(self, patient_id) -> PatientRequest | None:
+        """Retrieves from the DB the open patient request for a given patient_id"""
         result_dict = db.patient_requests.get(
             (where("patient_id") == patient_id) & (where("status") == "Open")
         )
@@ -26,7 +27,8 @@ class PerPatientRequestService(PatientRequestService):
         return PatientRequest(**result_dict)
 
     def update_requests(self, tasks: list[PatientTask]):
-
+        """Accepts a list of modified and open tasks and updates the relevant
+        PatientRequest objects in the DB."""
         grouped_by_patent: dict[str, list[PatientTask]] = defaultdict(list)
 
         for task in tasks:
