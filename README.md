@@ -1,18 +1,30 @@
 # Overview 
 
 
-Before you is a part of a task management system for clinics. This part is responsible for ingestion of tasks from an external system. The input is a list of  [PatientTask](models/patient_task.py) objects. These tasks can represent questions from a patient to a doctor, requests for medications. The reply mechanism is out of scope. Each task can be modified with changes to the message or the medications fields. 
+Before you is a part of a task management system for clinics. This part is responsible for ingestion of tasks from an external system. 
+The input is a list of  [PatientTask](models/patient_task.py) objects. 
+These tasks can represent questions from a patient to a doctor, requests for medications. 
+The reply mechanism is out of scope. Each task can be modified with changes to the message or the medications fields. 
 
 
-The purpose of this system is to accept tasks and intelligently merge them by patient id, creating a [PatientRequest](models/patient_request.py) object, often referred to as just request. This is to simplify the work load on medical practitioners. PatientRequest objects are queried and modified in a different system, but this is also out of scope. You do not need to worry about PatientRequests being modified or syncing back data to the external system.  
+The purpose of this system is to accept tasks and intelligently merge them by patient id, creating a [PatientRequest](models/patient_request.py) object, 
+often referred to as just request. This is to simplify the work load on medical practitioners. 
+PatientRequest objects are queried and modified in a different system, but this is also out of scope. 
+You do not need to worry about PatientRequests being modified or syncing back data to the external system.  
 
 
 A task also has a status field. A task starts in the `Open` status, and it can be updated to the `Closed` status.
-Since the tasks come from an external system, a doctor can choose at any time to handle the task in that external system. This is modeled by the `status` field on the `PatientTask`. The status is either `Open` or `Closed`. When a single task from possible many tasks that compose a request is `Closed`, the data of the task needs to be removed, but the task itself can remain. While a PatientRequest is a collection of tasks, as long as it is `Open`, it hasn't been handled by a doctor and can be modified. 
+Since the tasks come from an external system, a doctor can choose at any time to handle the task in that external system. 
+This is modeled by the `status` field on the `PatientTask`. The status is either `Open` or `Closed`. 
+When a single task from possible many tasks that compose a request is `Closed`, 
+the data of the task needs to be removed, but the task itself can remain. 
+While a PatientRequest is a collection of tasks, as long as it is `Open`, it hasn't been handled by 
+a doctor and can be modified. 
 
 
 The top level API is ClinicManager, it has one method called process_tasks_update.
-This method is called periodically, for example once every 2 minutes, and it accepts all the changes there were made to the patient tasks since the last call.
+This method is called periodically, for example once every 2 minutes, 
+and it accepts all the changes there were made to the patient tasks since the last call.
 
 The code comes with a test set that can be found in  [tests/test_clinic_manager.py](tests/test_clinic_manager.py)
 
@@ -26,13 +38,17 @@ The code comes with a test set that can be found in  [tests/test_clinic_manager.
 
 # Exercise 
 
-Currently, tasks are grouped only by the patient id. However, a new requirement emerged. In addition to the patient, the requests should also be grouped by the department specified in the assigned_to field. Possible values are ['Dermatology', 'Radiology', 'Primary']. 
+Currently, tasks are grouped only by the patient id. However, a new requirement emerged. 
+In addition to the patient, the requests should also be grouped by the department specified in the assigned_to field. 
+Possible values are ['Dermatology', 'Radiology', 'Primary']. 
 
-It is possible for a task to be moved from one department to another. The exercise is to modify the existing code to support these. 
+It is possible for a task to be moved from one department to another. 
+The exercise is to modify the existing code to support these. 
 
 You are expected to implement the new solution in [services/DepartmentPatientRequestService](services/patient_department_request_service.py). 
 
-There are two tests sets under the tests library. One for the initial implementation and another for the exercise solution in [tests/test_clinic_manager_with_departments.py](tests/test_clinic_manager_with_departments.py)
+There are two tests sets under the tests library. One for the initial implementation and another 
+for the exercise solution in [tests/test_clinic_manager_with_departments.py](tests/test_clinic_manager_with_departments.py)
 
 There are two test files in the tests directory:
 
