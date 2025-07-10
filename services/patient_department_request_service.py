@@ -105,12 +105,22 @@ class DepartmentPatientRequestService(PatientRequestService):
         # and create/update patient requests
         for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
-                self.handle_one_patient_request(patient_dept_tasks, assigned_to, patient_id)
+                pat_req_id = self.handle_one_patient_request(
+                    patient_dept_tasks, assigned_to, patient_id
+                )
+
+                # remove the tasks from *other* patient requests
+                # get relevant task ids
+                task_ids = {task.id for task in patient_dept_tasks}
+                self.remove_tasks_from_other_patient_requests(
+                    task_ids=task_ids,
+                    exclude_request_id=pat_req_id,
+                )
 
     def handle_one_patient_request(self, patient_dept_tasks, assigned_to, patient_id):
         """This method:
-            * Handles the creation/update of a patient request AND
-             updates existing requests if they are handling the same tasks"""
+        * Handles the creation/update of a patient request AND
+         updates existing requests if they are handling the same tasks"""
 
         # get existing request for the patient and department
         existing_req: PatientRequest = self.get_open_patient_request(
@@ -127,10 +137,5 @@ class DepartmentPatientRequestService(PatientRequestService):
             db.patient_requests.update(
                 pat_req.model_dump(), where("id") == existing_req.id
             )
-        # remove the tasks from *other* patient requests
-        # get relevant task ids
-        task_ids = {task.id for task in patient_dept_tasks}
-        self.remove_tasks_from_other_patient_requests(
-            task_ids=task_ids,
-            exclude_request_id=pat_req.id,
-        )
+
+        return pat_req.id
