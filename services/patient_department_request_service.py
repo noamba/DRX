@@ -72,10 +72,11 @@ class DepartmentPatientRequestService(PatientRequestService):
     def _remove_tasks_from_other_patient_requests(
         self, task_ids: set, exclude_request_id: str
     ):
-        """Assuming a task can appear only in one request, this method will:
-        1. Remove the tasks in task_ids from all other patient requests in the DB.
-        2. If a request has no tasks left, it will change it's status to `Closed`.
-        # TODO will need to look at messages and medications - do they need to be updated?
+        """This method will:
+        1. Remove the tasks in task_ids from patient requests in the DB, excluding exclude_request_id.
+        2. If a request has no tasks left, it will change its status to `Closed`.
+
+        Note: Assuming a task can appear in one request only
         """
         for task_id in task_ids:
             request_by_task = self._get_patient_request_by_task(
@@ -84,6 +85,7 @@ class DepartmentPatientRequestService(PatientRequestService):
             )
 
             if request_by_task is not None:
+                # remove the task_id from the request's task_ids
                 request_by_task.task_ids.discard(task_id)
                 # if the request has no tasks left, close it
                 if not request_by_task.task_ids:
