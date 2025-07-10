@@ -97,18 +97,18 @@ class DepartmentPatientRequestService(PatientRequestService):
                     where("id") == request_by_task.id,
                 )
 
-    def _get_tasks_data_structure(self, tasks):
+    def _get_tasks_data_structure(self, tasks: list[PatientTask]) -> dict:
         """Return a nested dictionary to group tasks by
         patient_id and department (assigned_to).
         For example:
             {
                 "patient1": {
-                    "Primary": ["task1", "task2"],
-                    "Cardiology": ["task3"]},
+                    "Primary": [task1, task2],
+                    "Cardiology": [task3]},
                     },
                 "patient2": {
-                    "Primary": ["task4"],
-                    "Neurology": ["task5", "task6"]
+                    "Primary": [task4],
+                    "Neurology": [task5, task6]
                 }
             }
         """
