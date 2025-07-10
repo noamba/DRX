@@ -6,10 +6,6 @@ from models.patient_request import PatientRequest
 from .abstract_patient_request_service import PatientRequestService
 import db.db_tinydb as db
 
-from operator import attrgetter
-
-task_date_getter = attrgetter("updated_date")
-
 # Create a Query object for TinyDB queries
 query = Query()
 
