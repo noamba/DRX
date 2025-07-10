@@ -28,3 +28,9 @@ TinyDB lacks **bulk operations** and has no **Transaction Support**. This create
 ### Impact
 The current approach works for small datasets but scales poorly for production applications requiring efficient concurrent updates and ACID properties.
 
+### Solution
+A more complete database solution, such as PostgreSQL, would offer:
+- **Bulk Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.
+- **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.
+
+
