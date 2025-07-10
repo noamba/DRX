@@ -85,19 +85,25 @@ class DepartmentPatientRequestService(PatientRequestService):
                     where("id") == request_by_task.id,
                 )
 
-    def update_requests(self, tasks: list[PatientTask]):
-        """Accepts a list of modified and open tasks and updates the relevant
-        PatientRequest objects in the DB."""
-
-        # create a nested dictionary to group tasks by patient_id and department (assigned_to)
+    def get_tasks_data_structure(self, tasks):
+        """create a nested dictionary to group tasks by
+        patient_id and department (assigned_to)"""
         grouped_by_patient_dept = defaultdict(lambda: defaultdict(list))
 
         for task in tasks:
             grouped_by_patient_dept[task.patient_id][task.assigned_to].append(task)
 
+        return grouped_by_patient_dept
+
+    def update_requests(self, tasks: list[PatientTask]):
+        """Accepts a list of modified and open tasks and updates the relevant
+        PatientRequest objects in the DB."""
+
+        tasks_by_patient_dept = self.get_tasks_data_structure(tasks)
+
         # iterate over the grouped tasks per patient and department
         # and create/update patient requests
-        for patient_id, department_tasks in grouped_by_patient_dept.items():
+        for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
 
                 # get existing request for the patient and department
