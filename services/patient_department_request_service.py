@@ -96,7 +96,7 @@ class DepartmentPatientRequestService(PatientRequestService):
         return grouped_by_patient_dept
 
     def update_requests(self, tasks: list[PatientTask]):
-        """Accepts a list of modified and open tasks and updates the relevant
+        """Accepts a list of modified and open tasks and creates/updates the relevant
         PatientRequest objects in the DB."""
 
         tasks_by_patient_dept = self.get_tasks_data_structure(tasks)
@@ -105,29 +105,32 @@ class DepartmentPatientRequestService(PatientRequestService):
         # and create/update patient requests
         for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
+                self.handle_one_patient_request(patient_dept_tasks, assigned_to, patient_id)
 
-                # get existing request for the patient and department
-                existing_req: PatientRequest = self.get_open_patient_request(
-                    assigned_to=assigned_to,
-                    patient_id=patient_id,
-                )
+    def handle_one_patient_request(self, patient_dept_tasks, assigned_to, patient_id):
+        """This method:
+            * Handles the creation/update of a patient request AND
+             updates existing requests if they are handling the same tasks"""
 
-                # create a new patient request object
-                pat_req = self.to_patient_request(patient_id, patient_dept_tasks)
-
-                # create OR update the request in the DB
-                if not existing_req:
-                    db.patient_requests.insert(pat_req.model_dump())
-                else:
-                    pat_req.id = existing_req.id
-                    db.patient_requests.update(
-                        pat_req.model_dump(), where("id") == existing_req.id
-                    )
-
-                # remove the tasks from *other* patient requests
-                # get relevant task ids
-                task_ids = {task.id for task in patient_dept_tasks}
-                self.remove_tasks_from_other_patient_requests(
-                    task_ids=task_ids,
-                    exclude_request_id=pat_req.id,
-                )
+        # get existing request for the patient and department
+        existing_req: PatientRequest = self.get_open_patient_request(
+            assigned_to=assigned_to,
+            patient_id=patient_id,
+        )
+        # create a new patient request object
+        pat_req = self.to_patient_request(patient_id, patient_dept_tasks)
+        # create OR update the request in the DB
+        if not existing_req:
+            db.patient_requests.insert(pat_req.model_dump())
+        else:
+            pat_req.id = existing_req.id
+            db.patient_requests.update(
+                pat_req.model_dump(), where("id") == existing_req.id
+            )
+        # remove the tasks from *other* patient requests
+        # get relevant task ids
+        task_ids = {task.id for task in patient_dept_tasks}
+        self.remove_tasks_from_other_patient_requests(
+            task_ids=task_ids,
+            exclude_request_id=pat_req.id,
+        )
