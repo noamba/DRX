@@ -37,6 +37,28 @@ class DepartmentPatientRequestService(PatientRequestService):
                     exclude_request_id=pat_req_id,
                 )
 
+    def _get_tasks_data_structure(self, tasks: list[PatientTask]) -> dict:
+        """Return a nested dictionary to group tasks by
+        patient_id and department (assigned_to).
+        For example:
+            {
+                "patient1": {
+                    "Primary": [task1, task2],
+                    "Cardiology": [task3]},
+                    },
+                "patient2": {
+                    "Primary": [task4],
+                    "Neurology": [task5, task6]
+                }
+            }
+        """
+        grouped_by_patient_dept = defaultdict(lambda: defaultdict(list))
+
+        for task in tasks:
+            grouped_by_patient_dept[task.patient_id][task.assigned_to].append(task)
+
+        return grouped_by_patient_dept
+
     def _handle_one_patient_request(self, patient_id, assigned_to, patient_dept_tasks):
         """Create/update a patient request for a given patient_id and
         department (assigned_to) using the provided tasks in
@@ -121,25 +143,3 @@ class DepartmentPatientRequestService(PatientRequestService):
                     request_by_task.model_dump(),
                     where("id") == request_by_task.id,
                 )
-
-    def _get_tasks_data_structure(self, tasks: list[PatientTask]) -> dict:
-        """Return a nested dictionary to group tasks by
-        patient_id and department (assigned_to).
-        For example:
-            {
-                "patient1": {
-                    "Primary": [task1, task2],
-                    "Cardiology": [task3]},
-                    },
-                "patient2": {
-                    "Primary": [task4],
-                    "Neurology": [task5, task6]
-                }
-            }
-        """
-        grouped_by_patient_dept = defaultdict(lambda: defaultdict(list))
-
-        for task in tasks:
-            grouped_by_patient_dept[task.patient_id][task.assigned_to].append(task)
-
-        return grouped_by_patient_dept
