@@ -121,7 +121,7 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return grouped_by_patient_dept
 
-    def _handle_one_patient_request(self, patient_dept_tasks, assigned_to, patient_id):
+    def _handle_one_patient_request(self, patient_id, assigned_to, patient_dept_tasks):
         """Create/update a patient request for a given patient_id and
         department (assigned_to) using the provided tasks in
         patient_dept_tasks"""
