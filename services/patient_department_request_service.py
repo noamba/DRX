@@ -19,7 +19,7 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         tasks_by_patient_dept = self._get_tasks_data_structure(tasks)
 
-        # iterate over the grouped tasks per patient and department
+        # Iterate over the grouped tasks per patient and department
         # and create/update patient requests
         for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
@@ -29,7 +29,7 @@ class DepartmentPatientRequestService(PatientRequestService):
                     patient_dept_tasks=patient_dept_tasks,
                 )
 
-                # if tasks were assigned to another patient request,
+                # If tasks were assigned to another patient request,
                 # remove them from the other requests
                 task_ids = {task.id for task in patient_dept_tasks}
                 self._remove_tasks_from_other_patient_requests(
@@ -87,13 +87,13 @@ class DepartmentPatientRequestService(PatientRequestService):
             )
 
             if request_by_task is not None:
-                # remove the task_id from the request's task_ids
+                # Remove the task_id from the request's task_ids
                 request_by_task.task_ids.discard(task_id)
-                # if the request has no tasks left, close it
+                # If the request has no tasks left, close it
                 if not request_by_task.task_ids:
                     request_by_task.status = "Closed"
 
-                # update the request in the DB
+                # Update the request in the DB
                 db.patient_requests.update(
                     request_by_task.model_dump(),
                     where("id") == request_by_task.id,
@@ -131,9 +131,9 @@ class DepartmentPatientRequestService(PatientRequestService):
             assigned_to=assigned_to,
             patient_id=patient_id,
         )
-        # create a new patient request object
+        # Create a new patient request object
         pat_req = self.to_patient_request(patient_id, patient_dept_tasks)
-        # create OR update the request in the DB
+        # Create OR update the request in the DB
         if not existing_req:
             db.patient_requests.insert(pat_req.model_dump())
         else:
