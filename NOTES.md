@@ -1,7 +1,7 @@
 # Thoughts and dilemmas
 
-
-1. I was not sure how to handle the case where a task is moved from one department to another. 
+## Database design and patient request handling
+I was not sure how to handle the case where a task is moved from one department to another. 
 In this case we have two PatientRequest objects for the same patient, one for each department.
 The task points out to "consider what happens when all the open tasks in one department are reassigned to another department".
 It makes sense that if a task is moved, it should be removed from the old department's PatientRequest and added to the new department's PatientRequest.
@@ -19,7 +19,8 @@ I think the solution lies with having:
 As this seemed to me out of scope for the exercise, I decided to keep the current implementation and not 
 change the messages and medications fields in the PatientRequest when a task is moved to another department.
 
-2. In `PatientRequestService` there is the following comment and code:
+## PatientRequestService and handling closed tasks
+In `PatientRequestService` there is the following comment and code:
 ```python
     # We only care about the closed tasks if all the tasks are closed and we are closing the request.
     req_tasks = open_tasks or patient_tasks
