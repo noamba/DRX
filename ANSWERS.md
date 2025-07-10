@@ -9,7 +9,6 @@ This document contains answers the questions in the code.
 ### Code Context
 ```python
 class TaskService:
-    """Service for managing patient tasks in the database."""
 
     def updates_tasks(self, tasks: list[PatientTask]):
         """Updates the tasks in the database with the provided list of tasks."""
