@@ -40,16 +40,16 @@ class DepartmentPatientRequestService(PatientRequestService):
     ) -> PatientRequest | None:
         """Retrieves from the DB the open patient request for a given
         patient_id and department (assigned_to)"""
-        result_dict = db.patient_requests.get(
+        patient_request_dict = db.patient_requests.get(
             (where("patient_id") == patient_id)
             & (where("assigned_to") == assigned_to)
             & (where("status") == "Open")
         )
 
-        if not result_dict:
+        if not patient_request_dict:
             return None
 
-        return PatientRequest(**result_dict)
+        return PatientRequest(**patient_request_dict)
 
     def _get_patient_request_by_task(
         self, task_id: str, exclude_request_id: str
