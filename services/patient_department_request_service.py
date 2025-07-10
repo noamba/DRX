@@ -1,5 +1,3 @@
-from typing import NewType
-
 from collections import defaultdict
 
 from tinydb import where, Query
@@ -14,13 +12,6 @@ task_date_getter = attrgetter("updated_date")
 
 # Create a Query object for TinyDB queries
 query = Query()
-
-
-DepartmentToPatientTasks = NewType(
-    "DepartmentToPatientTasks", dict[str, list[PatientTask]]
-)
-
-PatientToGroupedDepartmentTasks = dict[str, DepartmentToPatientTasks]
 
 
 class DepartmentPatientRequestService(PatientRequestService):
