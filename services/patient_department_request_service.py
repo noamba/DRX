@@ -109,8 +109,8 @@ class DepartmentPatientRequestService(PatientRequestService):
                     patient_dept_tasks, assigned_to, patient_id
                 )
 
-                # remove the tasks from *other* patient requests
-                # get relevant task ids
+                # if tasks were assigned to another patient request,
+                # remove them from the other requests
                 task_ids = {task.id for task in patient_dept_tasks}
                 self.remove_tasks_from_other_patient_requests(
                     task_ids=task_ids,
@@ -118,9 +118,7 @@ class DepartmentPatientRequestService(PatientRequestService):
                 )
 
     def handle_one_patient_request(self, patient_dept_tasks, assigned_to, patient_id):
-        """This method:
-        * Handles the creation/update of a patient request AND
-         updates existing requests if they are handling the same tasks"""
+        """Handles the creation/update of a patient request"""
 
         # get existing request for the patient and department
         existing_req: PatientRequest = self.get_open_patient_request(
