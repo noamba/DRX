@@ -53,12 +53,12 @@ class DepartmentPatientRequestService(PatientRequestService):
 
     @staticmethod
     def _get_patient_request_by_task(
-        task_id: str, exclude_request_id: str
+        task_id: str, exclude_patient_request_id: str
     ) -> PatientRequest | None:
-        """Retrieves from the DB a patient request for a given task_id,
-        excluding a specific request by its ID."""
+        """Retrieves from the DB a patient request with the given task_id, if exists,
+        excluding exclude_patient_request_id"""
         patient_requests = db.patient_requests.search(
-            (query.task_ids.any(task_id)) & (query.id != exclude_request_id)
+            (query.task_ids.any(task_id)) & (query.id != exclude_patient_request_id)
         )
 
         if not patient_requests:
@@ -80,7 +80,7 @@ class DepartmentPatientRequestService(PatientRequestService):
         for task_id in task_ids:
             request_by_task = self._get_patient_request_by_task(
                 task_id=task_id,
-                exclude_request_id=exclude_request_id,
+                exclude_patient_request_id=exclude_request_id,
             )
 
             if request_by_task is not None:
