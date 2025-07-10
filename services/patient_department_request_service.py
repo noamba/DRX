@@ -36,9 +36,10 @@ class DepartmentPatientRequestService(PatientRequestService):
                 )
 
     def _get_open_patient_request(
-        self, patient_id, assigned_to
+        self, patient_id: str, assigned_to: str
     ) -> PatientRequest | None:
-        """Retrieves from the DB the open patient request for a given patient_id"""
+        """Retrieves from the DB the open patient request for a given
+        patient_id and department (assigned_to)."""
         result_dict = db.patient_requests.get(
             (where("assigned_to") == assigned_to)
             & (where("patient_id") == patient_id)
