@@ -29,21 +29,16 @@ change the messages and medications fields in the PatientRequest when a task is 
 But then the code keeps the closed tasks (if no open tasks are found) and does some processing on them:
 ```python
     oldest_created_date = min((task.created_date for task in req_tasks))
-        new_pat_req = PatientRequest(
-            id=str(uuid4()),
-            assigned_to=newest_task.assigned_to,
-            created_date=oldest_created_date,
-            updated_date=newest_task.updated_date,
-            patient_id=patient_id,
-            pharmacy_id=newest_task.pharmacy_id,
-            task_ids={t.id for t in req_tasks},
-            status=req_status,
-            messages=[t.message for t in tasks_by_updated_asc],
-            medications={m for t in req_tasks for m in t.medications},
-        )
+    new_pat_req = PatientRequest(
+        ...
+        task_ids={t.id for t in req_tasks},
+        ...
+        medications={m for t in req_tasks for m in t.medications},
+    )
 ```
 
-This seems inefficient, why process closed tasks if they are not needed?
-The historical closed `PatientRequest` will have some closed tasks, but not necessarily all the tasks that were closed along the history of this `PatientRequest`.
+This seems problematic:
+- Why waste resources processing closed tasks if we don't care about them?
+- A historical closed patient requests will have some closed tasks, but not necessarily all the tasks that were closed along the history of this requests. This means the database is not consistent.
 
 
