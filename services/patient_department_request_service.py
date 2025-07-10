@@ -98,24 +98,6 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return PatientRequest(**patient_request_dict)
 
-    @staticmethod
-    def _get_patient_request_by_task(
-        task_id: str, exclude_patient_request_id: str
-    ) -> PatientRequest | None:
-        """Retrieves from the DB a patient request with the given task_id, if exists,
-        excluding exclude_patient_request_id"""
-        patient_requests = db.patient_requests.search(
-            (query.task_ids.any(task_id)) & (query.id != exclude_patient_request_id)
-        )
-
-        if not patient_requests:
-            return None
-
-        if len(patient_requests) > 1:
-            raise ValueError(f"Multiple patient requests found with task_id {task_id}")
-
-        return PatientRequest(**patient_requests[0])
-
     def _remove_tasks_from_other_patient_requests(
         self, task_ids: set, exclude_request_id: str
     ):
@@ -143,3 +125,21 @@ class DepartmentPatientRequestService(PatientRequestService):
                     request_by_task.model_dump(),
                     where("id") == request_by_task.id,
                 )
+
+    @staticmethod
+    def _get_patient_request_by_task(
+        task_id: str, exclude_patient_request_id: str
+    ) -> PatientRequest | None:
+        """Retrieves from the DB a patient request with the given task_id, if exists,
+        excluding exclude_patient_request_id"""
+        patient_requests = db.patient_requests.search(
+            (query.task_ids.any(task_id)) & (query.id != exclude_patient_request_id)
+        )
+
+        if not patient_requests:
+            return None
+
+        if len(patient_requests) > 1:
+            raise ValueError(f"Multiple patient requests found with task_id {task_id}")
+
+        return PatientRequest(**patient_requests[0])
