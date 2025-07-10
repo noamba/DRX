@@ -51,7 +51,7 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return PatientRequest(**result_dict)
 
-    def _get_request_by_task(
+    def _get_patient_request_by_task(
         self, task_id: str, exclude_request_id: str
     ) -> PatientRequest | None:
         """Retrieves from the DB a patient request for a given task_id,
@@ -79,7 +79,7 @@ class DepartmentPatientRequestService(PatientRequestService):
         # TODO will need to look at messages and medications - do they need to be updated?
         """
         for task_id in task_ids:
-            request_by_task = self._get_request_by_task(
+            request_by_task = self._get_patient_request_by_task(
                 task_id=task_id,
                 exclude_request_id=exclude_request_id,
             )
