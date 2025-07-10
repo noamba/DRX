@@ -16,8 +16,8 @@ I think the solution lies with having:
 - a normalized database design that does not duplicate task data in the PatientRequest and instead references the tasks.
 - Some decisions regarding medical history and what should be kept in the PatientRequest.
 
-As this seemed to me out of scope for the exercise, I decided to keep the current implementation and not 
-change the messages and medications fields in the PatientRequest when a task is moved to another department.
+As this seemed to me out of scope for the exercise, and the passing tests checked the `messages` and `medications` fields I decided to keep the current implementation and not 
+change these fields in the PatientRequest when a task is moved to another department.
 
 ## PatientRequestService and handling closed tasks
 In `PatientRequestService` there is the following comment and code:
