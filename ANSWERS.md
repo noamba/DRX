@@ -1,4 +1,4 @@
-# Code Review Answers
+# Answers to questions in the code
 
 This document contains answers the questions in the code.
 
@@ -22,8 +22,8 @@ class TaskService:
 ### The Problem
 TinyDB lacks **bulk operations** and has no **Transaction Support**. This creates several issues:
 
-- **Performance Issues**: Each task update requires a separate database operation, leading to multiple round trips to the database. The result is inefficient, especially with large datasets, resulting O(n) operations for n tasks.
-- **Lack of Atomicity**: Each upsert operation is isolated, meaning if one fails, the others may succeed, leading to inconsistent states. Atomicity, consistency, isolation and durability (ACID) are not ensured. No rollback or commit mechanism — once a write is done, there’s no undo. No support for concurrent writes — it is not safe for use in multi-threaded or multi-process contexts without additional locking.
+- **Performance Issues**: Each task update requires a separate database operation, leading to multiple separate I/O operations against the DB. The result is inefficient, especially with large datasets, resulting O(n) operations for n tasks.
+- **Lack of Atomicity**: TinyDB does not support transactions, so it cannot guarantee atomicity, consistency, isolation, or durability (ACID). Each upsert operation is isolated, meaning if one fails, the others may succeed, leading to inconsistent states. This would be especially relevant if multiple threads or processes would write to a TinyDB dataabse. As it does not offer built-in thread- or process-safety, concurrent writes would require external synchronization (e.g., file locks), otherwise corruption or data loss may occur.
 
 ### Impact
 The current approach works for small datasets but scales poorly for production applications requiring efficient concurrent updates and ACID properties.
