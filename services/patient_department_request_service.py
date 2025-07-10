@@ -27,7 +27,7 @@ PatientToGroupedDepartmentTasks = dict[str, DepartmentToPatientTasks]
 class DepartmentPatientRequestService(PatientRequestService):
 
 
-    def get_open_patient_request(self, assigned_to) -> list(PatientRequest) | None:
+    def get_open_patient_request(self, assigned_to) -> PatientRequest | None:
         """Retrieves from the DB the open patient request for a given patient_id"""
         result_dict = db.patient_requests.get(
             (where("assigned_to") == assigned_to) & (where("status") == "Open")
