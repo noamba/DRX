@@ -57,19 +57,17 @@ class DepartmentPatientRequestService(PatientRequestService):
     ) -> PatientRequest | None:
         """Retrieves from the DB a patient request for a given task_id,
         excluding a specific request by its ID."""
-        result = db.patient_requests.search(
+        patient_requests = db.patient_requests.search(
             (query.task_ids.any(task_id)) & (query.id != exclude_request_id)
         )
 
-        if not result:
+        if not patient_requests:
             return None
 
-        if len(result) > 1:
-            raise ValueError(
-                f"Multiple requests found with task_id {task_id}: {result}"
-            )
+        if len(patient_requests) > 1:
+            raise ValueError(f"Multiple patient requests found with task_id {task_id}")
 
-        return PatientRequest(**result[0])
+        return PatientRequest(**patient_requests[0])
 
     def _remove_tasks_from_other_patient_requests(
         self, task_ids: set, exclude_request_id: str
