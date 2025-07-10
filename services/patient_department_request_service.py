@@ -89,17 +89,15 @@ class DepartmentPatientRequestService(PatientRequestService):
         """Accepts a list of modified and open tasks and updates the relevant
         PatientRequest objects in the DB."""
 
-        # TODO: possible DRY with PerPatientRequestService
-
         # create a nested dictionary to group tasks by patient_id and department (assigned_to)
-        grouped_by_patient = defaultdict(lambda: defaultdict(list))
+        grouped_by_patient_dept = defaultdict(lambda: defaultdict(list))
 
         for task in tasks:
-            grouped_by_patient[task.patient_id][task.assigned_to].append(task)
+            grouped_by_patient_dept[task.patient_id][task.assigned_to].append(task)
 
         # iterate over the grouped tasks per patient and department
         # and create/update patient requests
-        for patient_id, department_tasks in grouped_by_patient.items():
+        for patient_id, department_tasks in grouped_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
 
                 # get existing request for the patient and department
