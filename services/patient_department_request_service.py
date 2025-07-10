@@ -51,8 +51,9 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return PatientRequest(**patient_request_dict)
 
+    @staticmethod
     def _get_patient_request_by_task(
-        self, task_id: str, exclude_request_id: str
+        task_id: str, exclude_request_id: str
     ) -> PatientRequest | None:
         """Retrieves from the DB a patient request for a given task_id,
         excluding a specific request by its ID."""
