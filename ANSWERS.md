@@ -33,3 +33,26 @@ A more complete database solution, such as PostgreSQL, would offer:
 - **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.
 
 
+
+## Question 2: Performance issue in `process_tasks_update`
+
+### Code Context
+```python
+
+class ClinicManager:
+    ...
+    def process_tasks_update(self, task_input: TaskInput):
+        
+        tasks = task_input.tasks
+        if not tasks:
+            return
+
+        self.task_service.updates_tasks(tasks)
+
+        newly_closed_tasks = [t for t in tasks if t.status == "Closed"]
+
+        # Question: What is a potential performance issue with this code ?
+        open_tasks = list(self.task_service.get_open_tasks())
+
+        self.patient_request_service.update_requests(open_tasks + newly_closed_tasks)
+```
