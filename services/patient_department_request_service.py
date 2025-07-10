@@ -13,6 +13,28 @@ query = Query()
 class DepartmentPatientRequestService(PatientRequestService):
     """Service for managing patient requests with department support."""
 
+    def update_requests(self, tasks: list[PatientTask]):
+        """Accepts a list of modified and open tasks and creates/updates the relevant
+        PatientRequest objects in the DB."""
+
+        tasks_by_patient_dept = self._get_tasks_data_structure(tasks)
+
+        # iterate over the grouped tasks per patient and department
+        # and create/update patient requests
+        for patient_id, department_tasks in tasks_by_patient_dept.items():
+            for assigned_to, patient_dept_tasks in department_tasks.items():
+                pat_req_id = self._handle_one_patient_request(
+                    patient_dept_tasks, assigned_to, patient_id
+                )
+
+                # if tasks were assigned to another patient request,
+                # remove them from the other requests
+                task_ids = {task.id for task in patient_dept_tasks}
+                self._remove_tasks_from_other_patient_requests(
+                    task_ids=task_ids,
+                    exclude_request_id=pat_req_id,
+                )
+
     def _get_open_patient_request(
         self, patient_id, assigned_to
     ) -> PatientRequest | None:
@@ -103,25 +125,3 @@ class DepartmentPatientRequestService(PatientRequestService):
             )
 
         return pat_req.id
-
-    def update_requests(self, tasks: list[PatientTask]):
-        """Accepts a list of modified and open tasks and creates/updates the relevant
-        PatientRequest objects in the DB."""
-
-        tasks_by_patient_dept = self._get_tasks_data_structure(tasks)
-
-        # iterate over the grouped tasks per patient and department
-        # and create/update patient requests
-        for patient_id, department_tasks in tasks_by_patient_dept.items():
-            for assigned_to, patient_dept_tasks in department_tasks.items():
-                pat_req_id = self._handle_one_patient_request(
-                    patient_dept_tasks, assigned_to, patient_id
-                )
-
-                # if tasks were assigned to another patient request,
-                # remove them from the other requests
-                task_ids = {task.id for task in patient_dept_tasks}
-                self._remove_tasks_from_other_patient_requests(
-                    task_ids=task_ids,
-                    exclude_request_id=pat_req_id,
-                )
