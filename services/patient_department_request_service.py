@@ -11,6 +11,7 @@ query = Query()
 
 
 class DepartmentPatientRequestService(PatientRequestService):
+    """Service for managing patient requests with department support."""
 
     def _get_open_patient_request(
         self, patient_id, assigned_to
