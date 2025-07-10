@@ -82,8 +82,9 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return pat_req.id
 
+    @staticmethod
     def _get_open_patient_request(
-        self, patient_id: str, assigned_to: str
+        patient_id: str, assigned_to: str
     ) -> PatientRequest | None:
         """Retrieves from the DB the open patient request for a given
         patient_id and department (assigned_to)"""
