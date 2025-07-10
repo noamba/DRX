@@ -37,6 +37,29 @@ class DepartmentPatientRequestService(PatientRequestService):
                     exclude_request_id=pat_req_id,
                 )
 
+    def _handle_one_patient_request(self, patient_id, assigned_to, patient_dept_tasks):
+        """Create/update a patient request for a given patient_id and
+        department (assigned_to) using the provided tasks in
+        patient_dept_tasks"""
+
+        # get existing request for the patient and department
+        existing_req: PatientRequest = self._get_open_patient_request(
+            assigned_to=assigned_to,
+            patient_id=patient_id,
+        )
+        # Create a new patient request object
+        pat_req = self.to_patient_request(patient_id, patient_dept_tasks)
+        # Create OR update the request in the DB
+        if not existing_req:
+            db.patient_requests.insert(pat_req.model_dump())
+        else:
+            pat_req.id = existing_req.id
+            db.patient_requests.update(
+                pat_req.model_dump(), where("id") == existing_req.id
+            )
+
+        return pat_req.id
+
     def _get_open_patient_request(
         self, patient_id: str, assigned_to: str
     ) -> PatientRequest | None:
@@ -120,26 +143,3 @@ class DepartmentPatientRequestService(PatientRequestService):
             grouped_by_patient_dept[task.patient_id][task.assigned_to].append(task)
 
         return grouped_by_patient_dept
-
-    def _handle_one_patient_request(self, patient_id, assigned_to, patient_dept_tasks):
-        """Create/update a patient request for a given patient_id and
-        department (assigned_to) using the provided tasks in
-        patient_dept_tasks"""
-
-        # get existing request for the patient and department
-        existing_req: PatientRequest = self._get_open_patient_request(
-            assigned_to=assigned_to,
-            patient_id=patient_id,
-        )
-        # Create a new patient request object
-        pat_req = self.to_patient_request(patient_id, patient_dept_tasks)
-        # Create OR update the request in the DB
-        if not existing_req:
-            db.patient_requests.insert(pat_req.model_dump())
-        else:
-            pat_req.id = existing_req.id
-            db.patient_requests.update(
-                pat_req.model_dump(), where("id") == existing_req.id
-            )
-
-        return pat_req.id
