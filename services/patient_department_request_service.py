@@ -37,7 +37,8 @@ class DepartmentPatientRequestService(PatientRequestService):
                     exclude_request_id=pat_req_id,
                 )
 
-    def _get_tasks_data_structure(self, tasks: list[PatientTask]) -> dict:
+    @staticmethod
+    def _get_tasks_data_structure(tasks: list[PatientTask]) -> dict:
         """Return a nested dictionary to group tasks by
         patient_id and department (assigned_to).
         For example:
