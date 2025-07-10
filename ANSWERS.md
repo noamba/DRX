@@ -56,3 +56,17 @@ class ClinicManager:
 
         self.patient_request_service.update_requests(open_tasks + newly_closed_tasks)
 ```
+
+### The problem
+The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call. 
+This seems an inefficient approach because it loads potentially thousands of irrelevant task records for patients that will not have their patient requests modified.
+
+### Impact
+- Database query time scales with total number of open tasks (O(n))
+- Memory usage increases unnecessarily
+- Network/database bandwidth is wasted
+
+As the system grows, this becomes problematic, leading to longer response times and higher resource consumption.
+
+### Better approach
+The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.
