@@ -37,3 +37,31 @@ class DepartmentPatientRequestService(PatientRequestService):
             return None
 
         return PatientRequest(**result_dict)
+
+
+
+    def update_requests(self, tasks: list[PatientTask]):
+        """Accepts a list of modified and open tasks and updates the relevant
+        PatientRequest objects in the DB."""
+
+        # TODO: possible DRY with PerPatientRequestService
+
+        grouped_by_patent: dict[str, list[PatientTask]] = defaultdict(list)
+
+        for task in tasks:
+            grouped_by_patent[task.patient_id].append(task)
+
+        for patient_id, patient_tasks in grouped_by_patent.items():
+
+            existing_req: PatientRequest = self.get_open_patient_request(patient_id)
+
+            pat_req = self.to_patient_request(patient_id, patient_tasks)
+
+            if not existing_req:
+                db.patient_requests.insert(pat_req.model_dump())
+            else:
+                pat_req.id = existing_req.id
+                db.patient_requests.update(
+                    pat_req.model_dump(), where("id") == existing_req.id
+                )
+
