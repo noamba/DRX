@@ -2,11 +2,10 @@ from datetime import datetime
 from operator import attrgetter
 from typing import Literal, Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 from services.task_service import TaskService
 
-from .patient_task import Medication
 
 task_date_getter = attrgetter("updated_date")
 

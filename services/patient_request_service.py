@@ -1,6 +1,5 @@
 from collections import defaultdict
 from operator import attrgetter
-from uuid import uuid4
 
 import db.db_tinydb as db
 from models.patient_request import PatientRequest

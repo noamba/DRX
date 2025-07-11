@@ -2,11 +2,11 @@ import json
 from datetime import datetime
 from uuid import uuid4
 
-from tinydb.storages import JSONStorage, MemoryStorage
+from tinydb.storages import JSONStorage
 from tinydb_serialization import SerializationMiddleware, Serializer
 from tinydb_serialization.serializers import DateTimeSerializer
 
-from tinydb import Query, TinyDB
+from tinydb import TinyDB
 
 
 class SetSerializer(Serializer):
