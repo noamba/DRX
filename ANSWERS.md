@@ -19,18 +19,18 @@ class TaskService:
 ```
 
 ### The Problem
-TinyDB lacks **bulk operations** and has no **Transaction Support**. This creates several issues:
+TinyDB lacks **bulk operations** and has no **Transaction Support**. This creates several issues:<br><br>
 
-- **Performance Issues**: Each task update requires a separate database operation, leading to multiple separate I/O operations against the DB. The result is inefficient, especially with large datasets, resulting O(n) operations for n tasks.
-- **Lack of Atomicity**: TinyDB does not support transactions, so it cannot guarantee atomicity, consistency, isolation, or durability (ACID). Each upsert operation is isolated, meaning if one fails, the others may succeed, leading to inconsistent states. This would be especially relevant if multiple threads or processes would write to a TinyDB dataabse. As it does not offer built-in thread- or process-safety, concurrent writes would require external synchronization (e.g., file locks), otherwise corruption or data loss may occur.
+- **Performance Issues**: Each task update requires a separate database operation, leading to multiple separate I/O operations against the DB.<br> The result is inefficient, especially with large datasets, resulting O(n) operations for n tasks.<br><br>
+- **Lack of Atomicity**: TinyDB does not support transactions, so it cannot guarantee atomicity, consistency, isolation, or durability (ACID).<br> Each upsert operation is isolated, meaning if one fails, the others may succeed, leading to inconsistent states.<br> This would be especially relevant if multiple threads or processes would write to a TinyDB dataabse.<br> As it does not offer built-in thread- or process-safety, concurrent writes would require external synchronization (e.g., file locks), otherwise corruption or data loss may occur.<br><br>
 
 ### Impact
-The current approach works for small datasets but scales poorly for production applications requiring efficient concurrent updates and ACID properties.
+The current approach works for small datasets but scales poorly for production applications requiring efficient concurrent updates and ACID properties.<br><br>
 
 ### Solution
-A more complete database solution, such as PostgreSQL, would offer:
-- **Bulk Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.
-- **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.
+A more complete database solution, such as PostgreSQL, would offer:<br><br>
+- **Bulk Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.<br><br>
+- **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.<br><br>
 
 ## Question 2: Performance issue in `process_tasks_update`
 
@@ -56,18 +56,18 @@ class ClinicManager:
 ```
 
 ### The problem
-The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call AND keeps it in memory as a list. This seems an inefficient approach because it loads and stores in memory potentially thousands of irrelevant task records for patients that will not have their patient requests modified.
+The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call AND keeps it in memory as a list.<br>This seems an inefficient approach because it loads and stores in memory potentially thousands of irrelevant task records for patients that will not have their patient requests modified.<br><br>
 
 ### Impact
-- Database query time scales with total number of open tasks (O(n))
-- Memory usage increases unnecessarily
-- Network/database bandwidth is wasted
+- Database query time scales with total number of open tasks (O(n))<br>
+- Memory usage increases unnecessarily<br>
+- Network/database bandwidth is wasted<br><br>
 
-As the system grows, this becomes problematic, leading to longer response times and higher resource consumption.
+As the system grows, this becomes problematic, leading to longer response times and higher resource consumption.<br><br>
 
 ### Better approach
-- The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.
-- This could be achieved by modifying the `get_open_tasks` method to accept a list of patient IDs or departments, allowing it to filter tasks more efficiently.
-- In addition, as `get_open_tasks` returns a *generator*, it would make sense to try and use the generator without converting it to a list. It would improve memory efficiency, especially if the number of open tasks is large. But is not straightforward to do so, as the `update_requests` method expects a list.
+- The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.<br><br>
+- This could be achieved by modifying the `get_open_tasks` method to accept a list of patient IDs or departments, allowing it to filter tasks more efficiently.<br><br>
+- In addition, as `get_open_tasks` returns a *generator*, it would make sense to try and use the generator without converting it to a list.<br>It would improve memory efficiency, especially if the number of open tasks is large.<br> But is not straightforward to do so, as the `update_requests` method expects a list.<br><br>
 
 
