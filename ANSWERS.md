@@ -32,8 +32,6 @@ A more complete database solution, such as PostgreSQL, would offer:
 - **Bulk Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.
 - **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.
 
-
-
 ## Question 2: Performance issue in `process_tasks_update`
 
 ### Code Context
@@ -58,8 +56,7 @@ class ClinicManager:
 ```
 
 ### The problem
-The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call AND keeps it in memory as a list. 
-This seems an inefficient approach because it loads and stores in memory potentially thousands of irrelevant task records for patients that will not have their patient requests modified.
+The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call AND keeps it in memory as a list. This seems an inefficient approach because it loads and stores in memory potentially thousands of irrelevant task records for patients that will not have their patient requests modified.
 
 ### Impact
 - Database query time scales with total number of open tasks (O(n))
@@ -71,8 +68,6 @@ As the system grows, this becomes problematic, leading to longer response times 
 ### Better approach
 - The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.
 - This could be achieved by modifying the `get_open_tasks` method to accept a list of patient IDs or departments, allowing it to filter tasks more efficiently.
-- In addition, as `get_open_tasks` returns a *generator*, it would make sense to try and use the generator without converting it to a list. 
-It would improve memory efficiency, especially if the number of open tasks is large. 
-But is not straightforward to do so, as the `update_requests` method expects a list.
+- In addition, as `get_open_tasks` returns a *generator*, it would make sense to try and use the generator without converting it to a list. It would improve memory efficiency, especially if the number of open tasks is large. But is not straightforward to do so, as the `update_requests` method expects a list.
 
 
