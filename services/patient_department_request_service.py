@@ -108,7 +108,9 @@ class DepartmentPatientRequestService(PatientRequestService):
     ) -> str:
         """Create/update a patient request for a given patient_id and
         department (assigned_to) using the provided tasks in
-        patient_dept_tasks"""
+        patient_dept_tasks
+        TODO: Improve documentation as above
+        """
 
         # get existing request for the patient and department
         existing_request: PatientRequest | None = self._get_open_patient_request(
@@ -134,7 +136,8 @@ class DepartmentPatientRequestService(PatientRequestService):
         assigned_to: str,
     ) -> PatientRequest | None:
         """Retrieves from the DB the open patient request for a given
-        patient_id and department (assigned_to)"""
+        patient_id and department (assigned_to)
+        TODO: Improve documentation as above"""
         patient_request_dict = db.patient_requests.get(
             (where("patient_id") == patient_id)
             & (where("assigned_to") == assigned_to)
@@ -156,6 +159,7 @@ class DepartmentPatientRequestService(PatientRequestService):
         2. If a request has no tasks left, it will change its status to `Closed`.
 
         Note: Assuming a task can appear in one request only
+        TODO: Improve documentation as above
         """
         for task_id in task_ids:
             request_by_task = self._get_patient_request_by_task(
@@ -182,7 +186,8 @@ class DepartmentPatientRequestService(PatientRequestService):
         exclude_patient_request_id: str,
     ) -> PatientRequest | None:
         """Retrieves from the DB a patient request with the given task_id, if exists,
-        excluding exclude_patient_request_id"""
+        excluding exclude_patient_request_id
+        TODO: Improve documentation as above"""
         patient_requests = db.patient_requests.search(
             (query.task_ids.any(task_id)) & (query.id != exclude_patient_request_id)
         )
