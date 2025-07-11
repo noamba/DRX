@@ -23,13 +23,14 @@ class DepartmentPatientRequestService(PatientRequestService):
         # and create/update patient requests
         for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
-                self._load_changes_to_db(
+                self._upload_changes_to_db(
                     patient_id=patient_id,
                     assigned_to=assigned_to,
                     patient_dept_tasks=patient_dept_tasks,
                 )
 
-    def _load_changes_to_db(self, patient_id, assigned_to, patient_dept_tasks):
+    def _upload_changes_to_db(self, patient_id, assigned_to, patient_dept_tasks):
+        """Load tasks to the DB for a specific patient_id and department"""
         pat_req_id = self._handle_one_patient_request(
             patient_id=patient_id,
             assigned_to=assigned_to,
