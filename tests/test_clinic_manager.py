@@ -3,6 +3,7 @@ import pytest
 import db.db_tinydb as db
 from clinic_manager import ClinicManager
 from main import load_all_inputs
+from models.patient_request import PatientRequest
 from tinydb import where
 
 from .config import generate_requests
@@ -106,6 +107,18 @@ def count_open_patient_requests():
 
 
 def get_open_patient_requests(patient_id) -> list[dict] | None:
-    return db.patient_requests.search(
+    raw_requests = db.patient_requests.search(
         (where("patient_id") == patient_id) & (where("status") == "Open")
     )
+
+    if not raw_requests:
+        return []
+
+    updated_requests = []
+    for request in raw_requests:
+        updated = PatientRequest(**request)
+        updated_as_dict = updated.model_dump()  # works with pydantic v2
+        updated_as_dict["messages"] = updated.messages
+        updated_requests.append(updated_as_dict)
+
+    return updated_requests

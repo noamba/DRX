@@ -2,7 +2,6 @@ from collections.abc import Iterable
 from operator import attrgetter
 
 import db.db_tinydb as db
-from models.patient_request import PatientRequest
 from models.patient_task import PatientTask
 from tinydb import Query, where
 
@@ -27,3 +26,19 @@ class TaskService:
             PatientTask(**task_doc)
             for task_doc in db.tasks.search(where("status") == "Open")
         )
+
+    def get_task_by_id(self, task_id: str) -> PatientTask | None:
+        """Returns a PatientTask object by its ID, or None if not found."""
+        task_doc = db.tasks.get(where("id") == task_id)
+        if task_doc:
+            return PatientTask(**task_doc)
+        return None
+
+    def get_tasks_by_ids(self, task_ids: set[str]) -> list[PatientTask]:
+        """Returns a list of PatientTask objects for the given task IDs."""
+        tasks = []
+        for task_id in task_ids:
+            task = self.get_task_by_id(task_id)
+            if task:
+                tasks.append(task)
+        return tasks

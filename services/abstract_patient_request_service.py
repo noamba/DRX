@@ -40,7 +40,6 @@ class PatientRequestService(ABC):
             pharmacy_id=newest_task.pharmacy_id,
             task_ids={t.id for t in req_tasks},
             status=req_status,
-            messages=[t.message for t in tasks_by_updated_asc],
             medications={m for t in req_tasks for m in t.medications},
         )
 
