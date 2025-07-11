@@ -45,7 +45,7 @@ def create_medication(code: str, name: str) -> Medication:
 
 
 @pytest.fixture
-def sample_tasks():
+def sample_patient_tasks():
     """Fixture providing sample tasks for testing."""
     return [
         create_patient_task(
@@ -192,12 +192,13 @@ class TestPatientRequestMessages:
     """Test cases for the messages property of PatientRequest."""
 
     @patch("models.patient_request.TaskService")
-    def test_messages_property_returns_sorted_messages(self, mock_task_service_class, patient_request, sample_tasks):
+    def test_messages_property_returns_sorted_messages(self, mock_task_service_class, patient_request,
+                                                       sample_patient_tasks):
         """Test that messages property returns messages sorted by updated_date."""
         # Arrange
         mock_task_service = Mock()
         mock_task_service_class.return_value = mock_task_service
-        mock_task_service.get_tasks_by_ids.return_value = sample_tasks
+        mock_task_service.get_tasks_by_ids.return_value = sample_patient_tasks
 
         # Act
         messages = patient_request.messages
@@ -254,12 +255,13 @@ class TestPatientRequestMedications:
     """Test cases for the medications property of PatientRequest."""
 
     @patch("models.patient_request.TaskService")
-    def test_medications_property_returns_all_medications(self, mock_task_service_class, patient_request, sample_tasks):
+    def test_medications_property_returns_all_medications(self, mock_task_service_class, patient_request,
+                                                          sample_patient_tasks):
         """Test that medications property returns all medications from all tasks."""
         # Arrange
         mock_task_service = Mock()
         mock_task_service_class.return_value = mock_task_service
-        mock_task_service.get_tasks_by_ids.return_value = sample_tasks
+        mock_task_service.get_tasks_by_ids.return_value = sample_patient_tasks
 
         # Act
         medications = patient_request.medications
@@ -332,12 +334,13 @@ class TestPatientRequestIntegration:
     """Integration tests for PatientRequest properties."""
 
     @patch("models.patient_request.TaskService")
-    def test_both_properties_use_same_task_service_instance(self, mock_task_service_class, patient_request, sample_tasks):
+    def test_both_properties_use_same_task_service_instance(self, mock_task_service_class, patient_request,
+                                                            sample_patient_tasks):
         """Test that both properties use the same TaskService instance."""
         # Arrange
         mock_task_service = Mock()
         mock_task_service_class.return_value = mock_task_service
-        mock_task_service.get_tasks_by_ids.return_value = sample_tasks
+        mock_task_service.get_tasks_by_ids.return_value = sample_patient_tasks
 
         # Act
         messages = patient_request.messages
