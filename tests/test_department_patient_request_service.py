@@ -111,7 +111,7 @@ class TestUploadChangesToDB:
         test_assigned_to = patient_data["assigned_to"]
         test_request_id = patient_data["request_id"]
 
-        # Set up mocks
+        # Set up mock
         mock_process_patient_request.return_value = test_request_id
 
         # Create service instance and call the method
@@ -155,9 +155,8 @@ class TestUploadChangesToDB:
         test_assigned_to = patient_data["assigned_to"]
         test_request_id = patient_data["request_id"]
 
-        # Set up mocks
+        # Set up mock
         mock_process_patient_request.return_value = test_request_id
-        mock_remove_tasks.return_value = None
 
         # Create service instance and call the method
         dept_request_service = DepartmentPatientRequestService()
@@ -176,7 +175,8 @@ class TestUploadChangesToDB:
 
         # Verify _remove_tasks_from_other_patient_requests was called with empty task_ids
         mock_remove_tasks.assert_called_once_with(
-            task_ids=set(), exclude_request_id=test_request_id
+            task_ids=set(),
+            exclude_request_id=test_request_id,
         )
 
     @patch.object(DepartmentPatientRequestService, "_process_patient_request")
