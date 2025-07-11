@@ -1,4 +1,5 @@
 import pytest
+
 import db.db_tinydb as db
 from clinic_manager import ClinicManager
 from main import load_all_inputs

@@ -1,7 +1,6 @@
-from tinydb import where
-
 from db import db_tinydb as db
 from models import PatientRequest
+from tinydb import where
 
 
 def get_open_patient_requests(patient_id) -> list[dict] | None:

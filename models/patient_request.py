@@ -6,7 +6,6 @@ from pydantic import BaseModel
 
 from services.task_service import TaskService
 
-
 task_date_getter = attrgetter("updated_date")
 
 
