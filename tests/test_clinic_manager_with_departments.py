@@ -4,8 +4,7 @@ import pytest
 import db.db_tinydb as db
 from clinic_manager import ClinicManager
 from main import load_all_inputs
-from services.patient_department_request_service import \
-    DepartmentPatientRequestService
+from services.patient_department_request_service import DepartmentPatientRequestService
 from tinydb import where
 
 from .config import generate_requests
