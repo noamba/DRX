@@ -6,6 +6,7 @@ This files includes the changes made and the ones that were considered but not i
 ### Changes made
 
 - Ran `black` and `isort` on all files to ensure consistent formatting.
+- Ran `autoflake --remove-all-unused-imports --in-place --recursive .` to remove all unused imports.
 
 ### Changes considered, but not implemented (out of scope)
 
