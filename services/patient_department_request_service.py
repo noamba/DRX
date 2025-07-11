@@ -23,19 +23,25 @@ class DepartmentPatientRequestService(PatientRequestService):
         # and create/update patient requests
         for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
-                pat_req_id = self._handle_one_patient_request(
+                self._load_changes_to_db(
                     patient_id=patient_id,
                     assigned_to=assigned_to,
                     patient_dept_tasks=patient_dept_tasks,
                 )
 
-                # If tasks were assigned to another patient request,
-                # remove them from the other requests
-                task_ids = {task.id for task in patient_dept_tasks}
-                self._remove_tasks_from_other_patient_requests(
-                    task_ids=task_ids,
-                    exclude_request_id=pat_req_id,
-                )
+    def _load_changes_to_db(self, patient_id, assigned_to, patient_dept_tasks):
+        pat_req_id = self._handle_one_patient_request(
+            patient_id=patient_id,
+            assigned_to=assigned_to,
+            patient_dept_tasks=patient_dept_tasks,
+        )
+        # If tasks were assigned to another patient request,
+        # remove them from the other requests
+        task_ids = {task.id for task in patient_dept_tasks}
+        self._remove_tasks_from_other_patient_requests(
+            task_ids=task_ids,
+            exclude_request_id=pat_req_id,
+        )
 
     @staticmethod
     def _get_tasks_data_structure(tasks: list[PatientTask]) -> dict:
