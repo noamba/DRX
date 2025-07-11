@@ -5,6 +5,7 @@ import pytest
 
 from models.patient_request import PatientRequest
 from models.patient_task import Medication, PatientTask
+from services.task_service import TaskService
 
 
 def create_patient_task(
@@ -25,7 +26,7 @@ def create_patient_task(
         created_date = datetime(2023, 5, 1, 10, 0, 0)
     if updated_date is None:
         updated_date = created_date
-
+    
     return PatientTask(
         id=task_id,
         patient_id=patient_id,
@@ -155,8 +156,8 @@ def tasks_with_no_medications():
     return [
         create_patient_task(task_id="task1", message="Task 1"),
         create_patient_task(
-            task_id="task2",
-            message="Task 2",
+            task_id="task2", 
+            message="Task 2", 
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
     ]
@@ -195,14 +196,14 @@ def single_existing_task():
 class TestPatientRequestMessages:
     """Test cases for the messages property of PatientRequest."""
 
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_messages_property_returns_sorted_messages(
-        self, mock_task_service_class, patient_request, sample_patient_tasks
+        self, mock_task_service_new, patient_request, sample_patient_tasks
     ):
         """Test that messages property returns messages sorted by updated_date."""
         # Arrange
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         mock_task_service.get_tasks_by_ids.return_value = sample_patient_tasks
 
         # Act
@@ -215,14 +216,14 @@ class TestPatientRequestMessages:
             {"task1", "task2", "task3"}
         )
 
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_messages_property_with_different_date_order(
-        self, mock_task_service_class, patient_request, tasks_with_different_date_order
+        self, mock_task_service_new, patient_request, tasks_with_different_date_order
     ):
         """Test that messages are sorted correctly when tasks have different date orders."""
         # Arrange
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         mock_task_service.get_tasks_by_ids.return_value = (
             tasks_with_different_date_order
         )
@@ -241,10 +242,10 @@ class TestPatientRequestMessages:
             ("patient_request", ["Only existing task message"], 1),
         ],
     )
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_messages_property_edge_cases(
         self,
-        mock_task_service_class,
+        mock_task_service_new,
         request_fixture,
         expected_messages,
         expected_call_count,
@@ -255,8 +256,8 @@ class TestPatientRequestMessages:
         # Arrange
         patient_request = request.getfixturevalue(request_fixture)
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
-
+        mock_task_service_new.return_value = mock_task_service
+        
         if request_fixture == "empty_patient_request":
             mock_task_service.get_tasks_by_ids.return_value = []
         else:
@@ -273,14 +274,14 @@ class TestPatientRequestMessages:
 class TestPatientRequestMedications:
     """Test cases for the medications property of PatientRequest."""
 
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_medications_property_returns_all_medications(
-        self, mock_task_service_class, patient_request, sample_patient_tasks
+        self, mock_task_service_new, patient_request, sample_patient_tasks
     ):
         """Test that medications property returns all medications from all tasks."""
         # Arrange
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         mock_task_service.get_tasks_by_ids.return_value = sample_patient_tasks
 
         # Act
@@ -323,10 +324,10 @@ class TestPatientRequestMedications:
             ),
         ],
     )
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_medications_property_various_scenarios(
         self,
-        mock_task_service_class,
+        mock_task_service_new,
         patient_request,
         tasks_fixture,
         expected_medications,
@@ -336,7 +337,7 @@ class TestPatientRequestMedications:
         # Arrange
         tasks = request.getfixturevalue(tasks_fixture)
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         mock_task_service.get_tasks_by_ids.return_value = tasks
 
         # Act
@@ -351,15 +352,15 @@ class TestPatientRequestMedications:
             ("empty_patient_request", []),
         ],
     )
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_medications_property_edge_cases(
-        self, mock_task_service_class, request_fixture, expected_medications, request
+        self, mock_task_service_new, request_fixture, expected_medications, request
     ):
         """Test medications property with edge cases using parametrization."""
         # Arrange
         patient_request = request.getfixturevalue(request_fixture)
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         mock_task_service.get_tasks_by_ids.return_value = []
 
         # Act
@@ -373,14 +374,14 @@ class TestPatientRequestMedications:
 class TestPatientRequestIntegration:
     """Integration tests for PatientRequest properties."""
 
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_both_properties_use_same_task_service_instance(
-        self, mock_task_service_class, patient_request, sample_patient_tasks
+        self, mock_task_service_new, patient_request, sample_patient_tasks
     ):
         """Test that both properties use the same TaskService instance."""
         # Arrange
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         mock_task_service.get_tasks_by_ids.return_value = sample_patient_tasks
 
         # Act
@@ -391,7 +392,7 @@ class TestPatientRequestIntegration:
         assert len(messages) == 3
         assert len(medications) == 3
         # Verify TaskService was instantiated twice (once for each property)
-        assert mock_task_service_class.call_count == 2
+        assert mock_task_service_new.call_count == 2
 
     @pytest.mark.parametrize(
         "property_name,expected_result",
@@ -400,14 +401,14 @@ class TestPatientRequestIntegration:
             ("medications", []),
         ],
     )
-    @patch("models.patient_request.TaskService")
+    @patch.object(TaskService, "__new__")
     def test_properties_with_nonexistent_tasks(
-        self, mock_task_service_class, patient_request, property_name, expected_result
+        self, mock_task_service_new, patient_request, property_name, expected_result
     ):
         """Test both properties when some task IDs don't exist using parametrization."""
         # Arrange
         mock_task_service = Mock()
-        mock_task_service_class.return_value = mock_task_service
+        mock_task_service_new.return_value = mock_task_service
         # Return empty list to simulate no tasks found
         mock_task_service.get_tasks_by_ids.return_value = []
 
