@@ -111,22 +111,22 @@ class DepartmentPatientRequestService(PatientRequestService):
         patient_dept_tasks"""
 
         # get existing request for the patient and department
-        existing_req: PatientRequest | None = self._get_open_patient_request(
+        existing_request: PatientRequest | None = self._get_open_patient_request(
             assigned_to=assigned_to,
             patient_id=patient_id,
         )
         # Create a new patient request object
-        pat_req = self.to_patient_request(patient_id, patient_dept_tasks)
+        patient_request = self.to_patient_request(patient_id, patient_dept_tasks)
         # Create OR update the request in the DB
-        if not existing_req:
-            db.patient_requests.insert(pat_req.model_dump())
+        if not existing_request:
+            db.patient_requests.insert(patient_request.model_dump())
         else:
-            pat_req.id = existing_req.id
+            patient_request.id = existing_request.id
             db.patient_requests.update(
-                pat_req.model_dump(), where("id") == existing_req.id
+                patient_request.model_dump(), where("id") == existing_request.id
             )
 
-        return pat_req.id
+        return patient_request.id
 
     @staticmethod
     def _get_open_patient_request(
