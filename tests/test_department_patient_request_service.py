@@ -124,8 +124,8 @@ def test_upload_changes_to_db(
     mock_process_patient_request.return_value = test_request_id
 
     # Create service instance and call the method
-    dept_request_service = DepartmentPatientRequestService()
-    dept_request_service._upload_changes_to_db(
+    deptartment_request_service = DepartmentPatientRequestService()
+    deptartment_request_service._upload_changes_to_db(
         patient_id=test_patient_id,
         assigned_to=test_assigned_to,
         patient_dept_tasks=patient_dept_tasks,
