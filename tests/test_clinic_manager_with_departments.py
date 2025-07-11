@@ -1,10 +1,13 @@
 # import db_tinydb as db
 import pytest
-from tinydb import where
-from main import load_all_inputs
+
 import db.db_tinydb as db
 from clinic_manager import ClinicManager
-from services.patient_department_request_service import DepartmentPatientRequestService
+from main import load_all_inputs
+from services.patient_department_request_service import \
+    DepartmentPatientRequestService
+from tinydb import where
+
 from .config import generate_requests
 
 

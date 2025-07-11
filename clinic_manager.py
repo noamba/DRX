@@ -1,6 +1,6 @@
 from models import TaskInput
-from services.patient_request_service import PerPatientRequestService
 from services.abstract_patient_request_service import PatientRequestService
+from services.patient_request_service import PerPatientRequestService
 from services.task_service import TaskService
 
 

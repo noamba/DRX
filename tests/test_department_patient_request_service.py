@@ -1,9 +1,12 @@
-import pytest
-from unittest.mock import patch
-from main import load_all_inputs
-from services.patient_department_request_service import DepartmentPatientRequestService
 from datetime import datetime
-from models.patient_task import PatientTask, Medication
+from unittest.mock import patch
+
+import pytest
+
+from main import load_all_inputs
+from models.patient_task import Medication, PatientTask
+from services.patient_department_request_service import \
+    DepartmentPatientRequestService
 
 
 @pytest.fixture

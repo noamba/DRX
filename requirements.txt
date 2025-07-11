@@ -3,3 +3,4 @@ pytest
 tinydb
 tinydb-serialization
 black
+isort

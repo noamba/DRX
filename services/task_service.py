@@ -1,10 +1,10 @@
 from collections.abc import Iterable
-from tinydb import Query, where
-from models.patient_task import PatientTask
-from models.patient_request import PatientRequest
-import db.db_tinydb as db
-
 from operator import attrgetter
+
+import db.db_tinydb as db
+from models.patient_request import PatientRequest
+from models.patient_task import PatientTask
+from tinydb import Query, where
 
 task_date_getter = attrgetter("updated_date")
 

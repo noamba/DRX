@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
-from models.patient_task import PatientTask
+from operator import attrgetter
 from uuid import uuid4
 
 from models.patient_request import PatientRequest
-from operator import attrgetter
+from models.patient_task import PatientTask
 
 task_date_getter = attrgetter("updated_date")
 

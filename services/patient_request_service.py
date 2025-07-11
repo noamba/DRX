@@ -1,14 +1,13 @@
 from collections import defaultdict
-
+from operator import attrgetter
 from uuid import uuid4
 
-from tinydb import where
-from models.patient_task import PatientTask
-from models.patient_request import PatientRequest
-from .abstract_patient_request_service import PatientRequestService
 import db.db_tinydb as db
+from models.patient_request import PatientRequest
+from models.patient_task import PatientTask
+from tinydb import where
 
-from operator import attrgetter
+from .abstract_patient_request_service import PatientRequestService
 
 task_date_getter = attrgetter("updated_date")
 

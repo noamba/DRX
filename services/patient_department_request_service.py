@@ -1,11 +1,12 @@
 from collections import defaultdict
 from typing import Dict
 
-from tinydb import where, Query
-from models.patient_task import PatientTask
-from models.patient_request import PatientRequest
-from .abstract_patient_request_service import PatientRequestService
 import db.db_tinydb as db
+from models.patient_request import PatientRequest
+from models.patient_task import PatientTask
+from tinydb import Query, where
+
+from .abstract_patient_request_service import PatientRequestService
 
 # Create a Query object for TinyDB queries
 query = Query()

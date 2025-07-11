@@ -1,8 +1,8 @@
 from os import PathLike
 from pathlib import Path
-from models import TaskInput
-import db.db_tinydb as db
 
+import db.db_tinydb as db
+from models import TaskInput
 
 cur_dir = Path(__file__).parent
 

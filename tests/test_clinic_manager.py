@@ -1,8 +1,10 @@
 import pytest
-from tinydb import where
-from main import load_all_inputs
+
 import db.db_tinydb as db
 from clinic_manager import ClinicManager
+from main import load_all_inputs
+from tinydb import where
+
 from .config import generate_requests
 
 
