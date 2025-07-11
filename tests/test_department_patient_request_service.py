@@ -122,7 +122,7 @@ class TestUploadChangesToDB:
             patient_dept_tasks=sample_tasks,
         )
 
-        # Verify _handle_one_patient_request was called correctly
+        # Verify _process_patient_request was called correctly
         mock_process_patient_request.assert_called_once_with(
             patient_id=test_patient_id,
             assigned_to=test_assigned_to,
@@ -166,7 +166,7 @@ class TestUploadChangesToDB:
             patient_dept_tasks=empty_tasks,
         )
 
-        # Verify _handle_one_patient_request was called with empty tasks
+        # Verify _process_patient_request was called with empty tasks
         mock_process_patient_request.assert_called_once_with(
             patient_id=test_patient_id,
             assigned_to=test_assigned_to,
