@@ -31,23 +31,23 @@ class DepartmentPatientRequestService(PatientRequestService):
 
     def _upload_changes_to_db(self, patient_id, assigned_to, patient_dept_tasks):
         """This method makes changes in the DB for a specific patient_id:
-            - Adds/updates a patient request with patient_dept_tasks for
-                the department (assinged_to) of patient_id
-            - Removes tasks from any other patient requests if they were assigned
+        - Adds/updates a patient request with patient_dept_tasks for
+            the department (assinged_to) of patient_id
+        - Removes tasks from any other patient requests if they were assigned
 
-             TODO: If this was a production code, we would want to have the
-                changes to the DB wrapped in a single transaction to ensure ACID properties.
+         TODO: If this was a production code, we would want to have the
+            changes to the DB wrapped in a single transaction to ensure ACID properties.
 
-            Args:
-                patient_id (str): The ID of the patient.
-                assigned_to (str): The department to which the tasks are assigned.
-                patient_dept_tasks (list[PatientTask]): The list of tasks for the patient
-                    in the specified department.
+        Args:
+            patient_id (str): The ID of the patient.
+            assigned_to (str): The department to which the tasks are assigned.
+            patient_dept_tasks (list[PatientTask]): The list of tasks for the patient
+                in the specified department.
 
-            Returns:
-                None
+        Returns:
+            None
 
-            """
+        """
         pat_req_id = self._handle_one_patient_request(
             patient_id=patient_id,
             assigned_to=assigned_to,
