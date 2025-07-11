@@ -72,7 +72,7 @@ class DepartmentPatientRequestService(PatientRequestService):
             dict: A nested dictionary where the first level keys are patient IDs,
             and the second level keys are department names (assigned_to).
             The values are lists of PatientTask objects.
-        
+
             Example return value:
                 {
                     "patient1": {
