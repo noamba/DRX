@@ -1,11 +1,7 @@
 import pytest
-from unittest.mock import patch, MagicMock
-from tinydb import where
+from unittest.mock import patch
 from main import load_all_inputs
-import db.db_tinydb as db
-from clinic_manager import ClinicManager
 from services.patient_department_request_service import DepartmentPatientRequestService
-from .config import generate_requests
 from datetime import datetime
 from models.patient_task import PatientTask, Medication
 
