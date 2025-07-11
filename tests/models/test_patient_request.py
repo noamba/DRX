@@ -49,22 +49,22 @@ def sample_patient_tasks():
     """Fixture providing sample tasks for testing."""
     return [
         create_patient_task(
-            "task1",
-            "First message",
+            task_id="task1",
+            message="First message",
             medications=[
-                create_medication("ACET001", "Acetaminophen"),
-                create_medication("IBU001", "Ibuprofen"),
+                create_medication(code="ACET001", name="Acetaminophen"),
+                create_medication(code="IBU001", name="Ibuprofen"),
             ],
         ),
         create_patient_task(
-            "task2",
-            "Second message",
-            medications=[create_medication("LISI001", "Lisinopril")],
+            task_id="task2",
+            message="Second message",
+            medications=[create_medication(code="LISI001", name="Lisinopril")],
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
         create_patient_task(
-            "task3",
-            "Third message",
+            task_id="task3",
+            message="Third message",
             status="Closed",
             updated_date=datetime(2023, 5, 3, 9, 15, 0),
         ),
@@ -106,18 +106,18 @@ def tasks_with_different_date_order():
     """Fixture providing tasks with different date orders for testing sorting."""
     return [
         create_patient_task(
-            "task1",
-            "Latest message",
+            task_id="task1",
+            message="Latest message",
             updated_date=datetime(2023, 5, 3, 15, 0, 0),  # Latest
         ),
         create_patient_task(
-            "task2",
-            "Earliest message",
+            task_id="task2",
+            message="Earliest message",
             updated_date=datetime(2023, 5, 1, 10, 0, 0),  # Earliest
         ),
         create_patient_task(
-            "task3",
-            "Middle message",
+            task_id="task3",
+            message="Middle message",
             updated_date=datetime(2023, 5, 2, 12, 0, 0),  # Middle
         ),
     ]
@@ -128,22 +128,22 @@ def tasks_with_some_empty_medications():
     """Fixture providing tasks where some have no medications."""
     return [
         create_patient_task(
-            "task1",
-            "Task with medications",
+            task_id="task1",
+            message="Task with medications",
             medications=[
-                create_medication("ACET001", "Acetaminophen"),
-                create_medication("IBU001", "Ibuprofen"),
+                create_medication(code="ACET001", name="Acetaminophen"),
+                create_medication(code="IBU001", name="Ibuprofen"),
             ],
         ),
         create_patient_task(
-            "task2",
-            "Task with no medications",
+            task_id="task2",
+            message="Task with no medications",
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
         create_patient_task(
-            "task3",
-            "Task with one medication",
-            medications=[create_medication("LISI001", "Lisinopril")],
+            task_id="task3",
+            message="Task with one medication",
+            medications=[create_medication(code="LISI001", name="Lisinopril")],
             updated_date=datetime(2023, 5, 3, 9, 15, 0),
         ),
     ]
@@ -153,8 +153,12 @@ def tasks_with_some_empty_medications():
 def tasks_with_no_medications():
     """Fixture providing tasks with no medications."""
     return [
-        create_patient_task("task1", "Task 1"),
-        create_patient_task("task2", "Task 2", updated_date=datetime(2023, 5, 2, 11, 0, 0)),
+        create_patient_task(task_id="task1", message="Task 1"),
+        create_patient_task(
+            task_id="task2", 
+            message="Task 2", 
+            updated_date=datetime(2023, 5, 2, 11, 0, 0)
+        ),
     ]
 
 
@@ -163,19 +167,19 @@ def tasks_with_duplicate_medications():
     """Fixture providing tasks with duplicate medications."""
     return [
         create_patient_task(
-            "task1",
-            "Task 1",
+            task_id="task1",
+            message="Task 1",
             medications=[
-                create_medication("ACET001", "Acetaminophen"),
-                create_medication("IBU001", "Ibuprofen"),
+                create_medication(code="ACET001", name="Acetaminophen"),
+                create_medication(code="IBU001", name="Ibuprofen"),
             ],
         ),
         create_patient_task(
-            "task2",
-            "Task 2",
+            task_id="task2",
+            message="Task 2",
             medications=[
-                create_medication("ACET001", "Acetaminophen"),  # Duplicate
-                create_medication("LISI001", "Lisinopril"),
+                create_medication(code="ACET001", name="Acetaminophen"),  # Duplicate
+                create_medication(code="LISI001", name="Lisinopril"),
             ],
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
@@ -185,7 +189,7 @@ def tasks_with_duplicate_medications():
 @pytest.fixture
 def single_existing_task():
     """Fixture providing a single task for testing nonexistent tasks scenario."""
-    return [create_patient_task("task1", "Only existing task message")]
+    return [create_patient_task(task_id="task1", message="Only existing task message")]
 
 
 class TestPatientRequestMessages:
