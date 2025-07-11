@@ -87,7 +87,7 @@ def patient_request():
 
 
 @pytest.fixture
-def empty_request():
+def empty_patient_request():
     """Fixture providing a PatientRequest with empty task_ids."""
     return PatientRequest(
         id="request1",
@@ -226,7 +226,7 @@ class TestPatientRequestMessages:
     @pytest.mark.parametrize(
         "request_fixture,expected_messages,expected_call_count",
         [
-            ("empty_request", [], 1),
+            ("empty_patient_request", [], 1),
             ("patient_request", ["Only existing task message"], 1),
         ],
     )
@@ -238,7 +238,7 @@ class TestPatientRequestMessages:
         mock_task_service = Mock()
         mock_task_service_class.return_value = mock_task_service
         
-        if request_fixture == "empty_request":
+        if request_fixture == "empty_patient_request":
             mock_task_service.get_tasks_by_ids.return_value = []
         else:
             mock_task_service.get_tasks_by_ids.return_value = single_existing_task
@@ -310,7 +310,7 @@ class TestPatientRequestMedications:
     @pytest.mark.parametrize(
         "request_fixture,expected_medications",
         [
-            ("empty_request", []),
+            ("empty_patient_request", []),
         ],
     )
     @patch("models.patient_request.TaskService")
