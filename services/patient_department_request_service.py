@@ -54,7 +54,7 @@ class DepartmentPatientRequestService(PatientRequestService):
             None
 
         """
-        pat_req_id = self._process_patient_request(
+        patient_request_id = self._process_patient_request(
             patient_id=patient_id,
             assigned_to=assigned_to,
             patient_dept_tasks=patient_dept_tasks,
@@ -64,7 +64,7 @@ class DepartmentPatientRequestService(PatientRequestService):
         task_ids = {task.id for task in patient_dept_tasks}
         self._remove_tasks_from_other_patient_requests(
             task_ids=task_ids,
-            exclude_request_id=pat_req_id,
+            exclude_request_id=patient_request_id,
         )
 
     @staticmethod
