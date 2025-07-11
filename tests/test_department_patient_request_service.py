@@ -221,3 +221,6 @@ class TestUploadChangesToDB:
         mock_remove_tasks.assert_called_once_with(
             task_ids=expected_task_ids, exclude_request_id=test_request_id
         )
+
+    # TODO: Continue adding tests for all other methods in the DepartmentPatientRequestService class
+    ...
