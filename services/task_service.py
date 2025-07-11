@@ -22,7 +22,7 @@ class TaskService:
             db.tasks.upsert(task.model_dump(), Task.id == task.id)
 
     def get_open_tasks(self) -> Iterable[PatientTask]:
-        """Returns an iterable of open PatientTask objects from the database."""
+        """Returns a generator of open PatientTask objects retrieved from the database."""
         return (
             PatientTask(**task_doc)
             for task_doc in db.tasks.search(where("status") == "Open")
