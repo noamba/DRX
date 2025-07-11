@@ -132,7 +132,8 @@ class TestUploadChangesToDB:
         # Verify _remove_tasks_from_other_patient_requests was called correctly
         expected_task_ids = {"task1", "task2"}
         mock_remove_tasks.assert_called_once_with(
-            task_ids=expected_task_ids, exclude_request_id=test_request_id
+            task_ids=expected_task_ids,
+            exclude_request_id=test_request_id,
         )
 
     @patch.object(DepartmentPatientRequestService, "_process_patient_request")
