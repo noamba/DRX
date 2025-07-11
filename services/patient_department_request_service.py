@@ -65,17 +65,25 @@ class DepartmentPatientRequestService(PatientRequestService):
     def _get_tasks_data_structure(tasks: list[PatientTask]) -> dict:
         """Return a nested dictionary to group tasks by
         patient_id and department (assigned_to).
-        For example:
-            {
-                "patient1": {
-                    "Primary": [task1, task2],
-                    "Cardiology": [task3]},
-                    },
-                "patient2": {
-                    "Primary": [task4],
-                    "Neurology": [task5, task6]
+        Args:
+            tasks (list[PatientTask]): List of PatientTask objects.
+
+        Returns:
+            dict: A nested dictionary where the first level keys are patient IDs,
+            and the second level keys are department names (assigned_to).
+            The values are lists of PatientTask objects.
+        
+            Example return value:
+                {
+                    "patient1": {
+                        "Primary": [task1, task2],
+                        "Cardiology": [task3]},
+                        },
+                    "patient2": {
+                        "Primary": [task4],
+                        "Neurology": [task5, task6]
+                    }
                 }
-            }
         """
         grouped_by_patient_dept = defaultdict(lambda: defaultdict(list))
 
