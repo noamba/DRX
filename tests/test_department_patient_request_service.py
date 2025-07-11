@@ -5,8 +5,7 @@ import pytest
 
 from main import load_all_inputs
 from models.patient_task import Medication, PatientTask
-from services.patient_department_request_service import \
-    DepartmentPatientRequestService
+from services.patient_department_request_service import DepartmentPatientRequestService
 
 
 @pytest.fixture
