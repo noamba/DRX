@@ -97,114 +97,115 @@ def test_update_requests(mock_upload_changes_to_db):
     assert mock_upload_changes_to_db.call_count == 5
 
 
-@patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
-@patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
-def test_upload_changes_to_db(mock_remove_tasks, mock_handle_request, sample_tasks, test_patient_data):
-    """Test the _upload_changes_to_db method with mocked dependencies."""
-    
-    # Get test data from fixtures
-    patient_data = test_patient_data["patient1"]
-    test_patient_id = patient_data["patient_id"]
-    test_assigned_to = patient_data["assigned_to"]
-    test_request_id = patient_data["request_id"]
-    
-    # Set up mocks
-    mock_handle_request.return_value = test_request_id
-    mock_remove_tasks.return_value = None
-    
-    # Create service instance and call the method
-    dept_request_service = DepartmentPatientRequestService()
-    dept_request_service._upload_changes_to_db(
-        patient_id=test_patient_id,
-        assigned_to=test_assigned_to,
-        patient_dept_tasks=sample_tasks
-    )
-    
-    # Verify _handle_one_patient_request was called correctly
-    mock_handle_request.assert_called_once_with(
-        patient_id=test_patient_id,
-        assigned_to=test_assigned_to,
-        patient_dept_tasks=sample_tasks
-    )
-    
-    # Verify _remove_tasks_from_other_patient_requests was called correctly
-    expected_task_ids = {"task1", "task2"}
-    mock_remove_tasks.assert_called_once_with(
-        task_ids=expected_task_ids,
-        exclude_request_id=test_request_id
-    )
+class TestUploadChangesToDB:
+    """Test class for _upload_changes_to_db method."""
 
+    @patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
+    @patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
+    def test_with_multiple_tasks(self, mock_remove_tasks, mock_handle_request, sample_tasks, test_patient_data):
+        """Test the _upload_changes_to_db method with multiple tasks."""
+        
+        # Get test data from fixtures
+        patient_data = test_patient_data["patient1"]
+        test_patient_id = patient_data["patient_id"]
+        test_assigned_to = patient_data["assigned_to"]
+        test_request_id = patient_data["request_id"]
+        
+        # Set up mocks
+        mock_handle_request.return_value = test_request_id
+        mock_remove_tasks.return_value = None
+        
+        # Create service instance and call the method
+        dept_request_service = DepartmentPatientRequestService()
+        dept_request_service._upload_changes_to_db(
+            patient_id=test_patient_id,
+            assigned_to=test_assigned_to,
+            patient_dept_tasks=sample_tasks
+        )
+        
+        # Verify _handle_one_patient_request was called correctly
+        mock_handle_request.assert_called_once_with(
+            patient_id=test_patient_id,
+            assigned_to=test_assigned_to,
+            patient_dept_tasks=sample_tasks
+        )
+        
+        # Verify _remove_tasks_from_other_patient_requests was called correctly
+        expected_task_ids = {"task1", "task2"}
+        mock_remove_tasks.assert_called_once_with(
+            task_ids=expected_task_ids,
+            exclude_request_id=test_request_id
+        )
 
-@patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
-@patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
-def test_upload_changes_to_db_with_empty_tasks(mock_remove_tasks, mock_handle_request, empty_tasks, test_patient_data):
-    """Test _upload_changes_to_db with empty task list."""
-    
-    # Get test data from fixtures
-    patient_data = test_patient_data["patient1"]
-    test_patient_id = patient_data["patient_id"]
-    test_assigned_to = patient_data["assigned_to"]
-    test_request_id = patient_data["request_id"]
-    
-    # Set up mocks
-    mock_handle_request.return_value = test_request_id
-    mock_remove_tasks.return_value = None
-    
-    # Create service instance and call the method
-    dept_request_service = DepartmentPatientRequestService()
-    dept_request_service._upload_changes_to_db(
-        patient_id=test_patient_id,
-        assigned_to=test_assigned_to,
-        patient_dept_tasks=empty_tasks
-    )
-    
-    # Verify _handle_one_patient_request was called with empty tasks
-    mock_handle_request.assert_called_once_with(
-        patient_id=test_patient_id,
-        assigned_to=test_assigned_to,
-        patient_dept_tasks=empty_tasks
-    )
-    
-    # Verify _remove_tasks_from_other_patient_requests was called with empty task_ids
-    mock_remove_tasks.assert_called_once_with(
-        task_ids=set(),
-        exclude_request_id=test_request_id
-    )
+    @patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
+    @patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
+    def test_with_empty_tasks(self, mock_remove_tasks, mock_handle_request, empty_tasks, test_patient_data):
+        """Test _upload_changes_to_db with empty task list."""
+        
+        # Get test data from fixtures
+        patient_data = test_patient_data["patient1"]
+        test_patient_id = patient_data["patient_id"]
+        test_assigned_to = patient_data["assigned_to"]
+        test_request_id = patient_data["request_id"]
+        
+        # Set up mocks
+        mock_handle_request.return_value = test_request_id
+        mock_remove_tasks.return_value = None
+        
+        # Create service instance and call the method
+        dept_request_service = DepartmentPatientRequestService()
+        dept_request_service._upload_changes_to_db(
+            patient_id=test_patient_id,
+            assigned_to=test_assigned_to,
+            patient_dept_tasks=empty_tasks
+        )
+        
+        # Verify _handle_one_patient_request was called with empty tasks
+        mock_handle_request.assert_called_once_with(
+            patient_id=test_patient_id,
+            assigned_to=test_assigned_to,
+            patient_dept_tasks=empty_tasks
+        )
+        
+        # Verify _remove_tasks_from_other_patient_requests was called with empty task_ids
+        mock_remove_tasks.assert_called_once_with(
+            task_ids=set(),
+            exclude_request_id=test_request_id
+        )
 
-
-@patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
-@patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
-def test_upload_changes_to_db_with_single_task(mock_remove_tasks, mock_handle_request, single_task, test_patient_data):
-    """Test _upload_changes_to_db with a single task."""
-    
-    # Get test data from fixtures
-    patient_data = test_patient_data["patient2"]
-    test_patient_id = patient_data["patient_id"]
-    test_assigned_to = patient_data["assigned_to"]
-    test_request_id = patient_data["request_id"]
-    
-    # Set up mocks
-    mock_handle_request.return_value = test_request_id
-    mock_remove_tasks.return_value = None
-    
-    # Create service instance and call the method
-    dept_request_service = DepartmentPatientRequestService()
-    dept_request_service._upload_changes_to_db(
-        patient_id=test_patient_id,
-        assigned_to=test_assigned_to,
-        patient_dept_tasks=single_task
-    )
-    
-    # Verify _handle_one_patient_request was called correctly
-    mock_handle_request.assert_called_once_with(
-        patient_id=test_patient_id,
-        assigned_to=test_assigned_to,
-        patient_dept_tasks=single_task
-    )
-    
-    # Verify _remove_tasks_from_other_patient_requests was called correctly
-    expected_task_ids = {"task3"}
-    mock_remove_tasks.assert_called_once_with(
-        task_ids=expected_task_ids,
-        exclude_request_id=test_request_id
-    )
+    @patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
+    @patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
+    def test_with_single_task(self, mock_remove_tasks, mock_handle_request, single_task, test_patient_data):
+        """Test _upload_changes_to_db with a single task."""
+        
+        # Get test data from fixtures
+        patient_data = test_patient_data["patient2"]
+        test_patient_id = patient_data["patient_id"]
+        test_assigned_to = patient_data["assigned_to"]
+        test_request_id = patient_data["request_id"]
+        
+        # Set up mocks
+        mock_handle_request.return_value = test_request_id
+        mock_remove_tasks.return_value = None
+        
+        # Create service instance and call the method
+        dept_request_service = DepartmentPatientRequestService()
+        dept_request_service._upload_changes_to_db(
+            patient_id=test_patient_id,
+            assigned_to=test_assigned_to,
+            patient_dept_tasks=single_task
+        )
+        
+        # Verify _handle_one_patient_request was called correctly
+        mock_handle_request.assert_called_once_with(
+            patient_id=test_patient_id,
+            assigned_to=test_assigned_to,
+            patient_dept_tasks=single_task
+        )
+        
+        # Verify _remove_tasks_from_other_patient_requests was called correctly
+        expected_task_ids = {"task3"}
+        mock_remove_tasks.assert_called_once_with(
+            task_ids=expected_task_ids,
+            exclude_request_id=test_request_id
+        )
