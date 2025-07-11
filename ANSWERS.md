@@ -71,10 +71,8 @@ As the system grows, this becomes problematic, leading to longer response times 
 ### Better approach
 - The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.
 - This could be achieved by modifying the `get_open_tasks` method to accept a list of patient IDs or departments, allowing it to filter tasks more efficiently.
-- In addition, instead of returning a list, a *generator* could be used instead of a list to avoid loading all tasks into memory at once. It would look something like this:
-```python
-...
-open_tasks = (task for task in self.task_service.get_open_tasks())  # generator
-...
-```
+- In addition, as `get_open_tasks` returns a *generator*, it would make sense to try and use the generator without converting it to a list. 
+It would improve memory efficiency, especially if the number of open tasks is large. 
+But is not straightforward to do so, as the `update_requests` method expects a list.
+
 
