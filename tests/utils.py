@@ -14,9 +14,9 @@ def get_open_patient_requests(patient_id) -> list[dict] | None:
     updated_requests = []
     for request in raw_requests:
         updated = PatientRequest(**request)
-        updated_as_dict = updated.model_dump()  # works with pydantic v2
-        updated_as_dict["messages"] = updated.messages
-        updated_as_dict["medications"] = updated.medications
-        updated_requests.append(updated_as_dict)
+        updated_dict = updated.model_dump()  # works with pydantic v2
+        updated_dict["messages"] = updated.messages
+        updated_dict["medications"] = updated.medications
+        updated_requests.append(updated_dict)
 
     return updated_requests
