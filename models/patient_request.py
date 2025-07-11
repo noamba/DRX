@@ -16,7 +16,6 @@ class PatientRequest(BaseModel):
     assigned_to: str
     created_date: datetime
     updated_date: datetime
-    medications: list[Medication] = Field(default_factory=list)
     pharmacy_id: Optional[int]
 
     task_ids: set[str]
@@ -30,5 +29,21 @@ class PatientRequest(BaseModel):
         tasks_by_updated_asc = sorted(tasks, key=task_date_getter)
 
         return [task.message for task in tasks_by_updated_asc]
+
+    @property
+    def medications(self) -> list[dict]:
+        """Property that returns a list of medications from all tasks referenced by task_ids."""
+        task_service = TaskService()
+        tasks = task_service.get_tasks_by_ids(self.task_ids)
+
+        medications = []
+        for task in tasks:
+            if not task.medications:
+                continue
+
+            for medication in task.medications:
+                medications.append(medication.model_dump())
+
+        return medications
 
     # NOTE: Model can be extended as desired
