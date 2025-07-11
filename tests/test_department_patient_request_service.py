@@ -100,7 +100,7 @@ def test_update_requests(mock_upload_changes_to_db):
 class TestUploadChangesToDB:
     """Test class for _upload_changes_to_db method."""
 
-    @patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
+    @patch.object(DepartmentPatientRequestService, "_process_patient_request")
     @patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
     def test_with_multiple_tasks(self, mock_remove_tasks, mock_handle_request, sample_tasks, test_patient_data):
         """Test the _upload_changes_to_db method with multiple tasks."""
@@ -137,7 +137,7 @@ class TestUploadChangesToDB:
             exclude_request_id=test_request_id
         )
 
-    @patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
+    @patch.object(DepartmentPatientRequestService, "_process_patient_request")
     @patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
     def test_with_empty_tasks(self, mock_remove_tasks, mock_handle_request, empty_tasks, test_patient_data):
         """Test _upload_changes_to_db with empty task list."""
@@ -173,7 +173,7 @@ class TestUploadChangesToDB:
             exclude_request_id=test_request_id
         )
 
-    @patch.object(DepartmentPatientRequestService, "_handle_one_patient_request")
+    @patch.object(DepartmentPatientRequestService, "_process_patient_request")
     @patch.object(DepartmentPatientRequestService, "_remove_tasks_from_other_patient_requests")
     def test_with_single_task(self, mock_remove_tasks, mock_handle_request, single_task, test_patient_data):
         """Test _upload_changes_to_db with a single task."""

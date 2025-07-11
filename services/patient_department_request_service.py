@@ -54,7 +54,7 @@ class DepartmentPatientRequestService(PatientRequestService):
             None
 
         """
-        pat_req_id = self._handle_one_patient_request(
+        pat_req_id = self._process_patient_request(
             patient_id=patient_id,
             assigned_to=assigned_to,
             patient_dept_tasks=patient_dept_tasks,
@@ -100,7 +100,7 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return grouped_by_patient_dept
 
-    def _handle_one_patient_request(
+    def _process_patient_request(
         self,
         patient_id: str,
         assigned_to: str,
