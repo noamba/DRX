@@ -26,7 +26,7 @@ def create_patient_task(
         created_date = datetime(2023, 5, 1, 10, 0, 0)
     if updated_date is None:
         updated_date = created_date
-    
+
     return PatientTask(
         id=task_id,
         patient_id=patient_id,
@@ -156,8 +156,8 @@ def tasks_with_no_medications():
     return [
         create_patient_task(task_id="task1", message="Task 1"),
         create_patient_task(
-            task_id="task2", 
-            message="Task 2", 
+            task_id="task2",
+            message="Task 2",
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
     ]
@@ -257,7 +257,7 @@ class TestPatientRequestMessages:
         patient_request = request.getfixturevalue(request_fixture)
         mock_task_service = Mock()
         mock_task_service_new.return_value = mock_task_service
-        
+
         if request_fixture == "empty_patient_request":
             mock_task_service.get_tasks_by_ids.return_value = []
         else:
@@ -427,6 +427,10 @@ class TestPatientRequestModelValidation:
         [
             ("Open", 123, {"task1", "task2"}, "Open", 123, {"task1", "task2"}),
             ("Closed", None, set(), "Closed", None, set()),
+        ],
+        ids=[
+            "Open with tasks",
+            "Closed without tasks",
         ],
     )
     def test_patient_request_creation_various_scenarios(
