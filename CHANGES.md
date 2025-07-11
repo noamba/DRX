@@ -1,6 +1,6 @@
 # Changes
 
-This files includes the changes made and the ones that were considered but not implemented.
+This file lists the changes made in the code and changes that were considered but not implemented due to time limit.
 
 ## Changes to all files
 ### Changes made
@@ -8,7 +8,7 @@ This files includes the changes made and the ones that were considered but not i
 - Ran `black` and `isort` on all files to ensure consistent formatting.
 - Ran `autoflake --remove-all-unused-imports --in-place --recursive .` to remove all unused imports.
 
-### Changes considered, but not implemented (out of scope)
+### Changes considered, but not implemented
 
 - adding/correcting type hints to all functions and methods for better clarity and maintainability and run `mypy` 
 to check for type errors.
@@ -16,6 +16,10 @@ to check for type errors.
 
 ## Changes to specific files
 These changes are grouped by the files they were made in.
+
+
+### models/patient_task.py
+
 
 ### services/patient_department_request_service.py
 - Implemented the new grouping logic by both patient id and department.
