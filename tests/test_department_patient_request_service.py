@@ -198,9 +198,8 @@ class TestUploadChangesToDB:
         test_assigned_to = patient_data["assigned_to"]
         test_request_id = patient_data["request_id"]
 
-        # Set up mocks
+        # Set up mock
         mock_process_patient_request.return_value = test_request_id
-        mock_remove_tasks.return_value = None
 
         # Create service instance and call the method
         dept_request_service = DepartmentPatientRequestService()
