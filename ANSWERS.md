@@ -58,8 +58,8 @@ class ClinicManager:
 ```
 
 ### The problem
-The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call. 
-This seems an inefficient approach because it loads potentially thousands of irrelevant task records for patients that will not have their patient requests modified.
+The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call AND keeps it in memory as a list. 
+This seems an inefficient approach because it loads and stores in memory potentially thousands of irrelevant task records for patients that will not have their patient requests modified.
 
 ### Impact
 - Database query time scales with total number of open tasks (O(n))
@@ -69,4 +69,12 @@ This seems an inefficient approach because it loads potentially thousands of irr
 As the system grows, this becomes problematic, leading to longer response times and higher resource consumption.
 
 ### Better approach
-The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.
+- The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.
+- This could be achieved by modifying the `get_open_tasks` method to accept a list of patient IDs or departments, allowing it to filter tasks more efficiently.
+- In addition, instead of returning a list, a *generator* could be used instead of a list to avoid loading all tasks into memory at once. It would look something like this:
+```python
+...
+open_tasks = (task for task in self.task_service.get_open_tasks())  # generator
+...
+```
+
