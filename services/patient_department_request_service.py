@@ -35,6 +35,9 @@ class DepartmentPatientRequestService(PatientRequestService):
                 the department (assinged_to) of patient_id
             - Removes tasks from any other patient requests if they were assigned
 
+             TODO: If this was a production code, we would want to have the
+                changes to the DB wrapped in a single transaction to ensure ACID properties.
+
             Args:
                 patient_id (str): The ID of the patient.
                 assigned_to (str): The department to which the tasks are assigned.
