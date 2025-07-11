@@ -7,7 +7,7 @@ from models.patient_request import PatientRequest
 from models.patient_task import Medication, PatientTask
 
 
-def create_task(
+def create_patient_task(
     task_id: str,
     message: str,
     medications: list[Medication] = None,
@@ -48,7 +48,7 @@ def create_medication(code: str, name: str) -> Medication:
 def sample_tasks():
     """Fixture providing sample tasks for testing."""
     return [
-        create_task(
+        create_patient_task(
             "task1",
             "First message",
             medications=[
@@ -56,13 +56,13 @@ def sample_tasks():
                 create_medication("IBU001", "Ibuprofen"),
             ],
         ),
-        create_task(
+        create_patient_task(
             "task2",
             "Second message",
             medications=[create_medication("LISI001", "Lisinopril")],
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
-        create_task(
+        create_patient_task(
             "task3",
             "Third message",
             status="Closed",
@@ -105,17 +105,17 @@ def empty_request():
 def tasks_with_different_date_order():
     """Fixture providing tasks with different date orders for testing sorting."""
     return [
-        create_task(
+        create_patient_task(
             "task1",
             "Latest message",
             updated_date=datetime(2023, 5, 3, 15, 0, 0),  # Latest
         ),
-        create_task(
+        create_patient_task(
             "task2",
             "Earliest message",
             updated_date=datetime(2023, 5, 1, 10, 0, 0),  # Earliest
         ),
-        create_task(
+        create_patient_task(
             "task3",
             "Middle message",
             updated_date=datetime(2023, 5, 2, 12, 0, 0),  # Middle
@@ -127,7 +127,7 @@ def tasks_with_different_date_order():
 def tasks_with_some_empty_medications():
     """Fixture providing tasks where some have no medications."""
     return [
-        create_task(
+        create_patient_task(
             "task1",
             "Task with medications",
             medications=[
@@ -135,12 +135,12 @@ def tasks_with_some_empty_medications():
                 create_medication("IBU001", "Ibuprofen"),
             ],
         ),
-        create_task(
+        create_patient_task(
             "task2",
             "Task with no medications",
             updated_date=datetime(2023, 5, 2, 11, 0, 0),
         ),
-        create_task(
+        create_patient_task(
             "task3",
             "Task with one medication",
             medications=[create_medication("LISI001", "Lisinopril")],
@@ -153,8 +153,8 @@ def tasks_with_some_empty_medications():
 def tasks_with_no_medications():
     """Fixture providing tasks with no medications."""
     return [
-        create_task("task1", "Task 1"),
-        create_task("task2", "Task 2", updated_date=datetime(2023, 5, 2, 11, 0, 0)),
+        create_patient_task("task1", "Task 1"),
+        create_patient_task("task2", "Task 2", updated_date=datetime(2023, 5, 2, 11, 0, 0)),
     ]
 
 
@@ -162,7 +162,7 @@ def tasks_with_no_medications():
 def tasks_with_duplicate_medications():
     """Fixture providing tasks with duplicate medications."""
     return [
-        create_task(
+        create_patient_task(
             "task1",
             "Task 1",
             medications=[
@@ -170,7 +170,7 @@ def tasks_with_duplicate_medications():
                 create_medication("IBU001", "Ibuprofen"),
             ],
         ),
-        create_task(
+        create_patient_task(
             "task2",
             "Task 2",
             medications=[
@@ -185,7 +185,7 @@ def tasks_with_duplicate_medications():
 @pytest.fixture
 def single_existing_task():
     """Fixture providing a single task for testing nonexistent tasks scenario."""
-    return [create_task("task1", "Only existing task message")]
+    return [create_patient_task("task1", "Only existing task message")]
 
 
 class TestPatientRequestMessages:
