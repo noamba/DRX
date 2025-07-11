@@ -1,4 +1,5 @@
 from collections import defaultdict
+from typing import Dict
 
 from tinydb import where, Query
 from models.patient_task import PatientTask
@@ -13,7 +14,7 @@ query = Query()
 class DepartmentPatientRequestService(PatientRequestService):
     """Service for managing patient requests with department support."""
 
-    def update_requests(self, tasks: list[PatientTask]):
+    def update_requests(self, tasks: list[PatientTask]) -> None:
         """Accepts a list of modified and open tasks and creates/updates the relevant
         PatientRequest objects in the DB."""
 
@@ -29,7 +30,12 @@ class DepartmentPatientRequestService(PatientRequestService):
                     patient_dept_tasks=patient_dept_tasks,
                 )
 
-    def _upload_changes_to_db(self, patient_id, assigned_to, patient_dept_tasks):
+    def _upload_changes_to_db(
+        self,
+        patient_id: str,
+        assigned_to: str,
+        patient_dept_tasks: list[PatientTask],
+    ) -> None:
         """This method makes changes in the DB for a specific patient_id:
         - Adds/updates a patient request with patient_dept_tasks for
             the department (assinged_to) of patient_id
@@ -62,7 +68,9 @@ class DepartmentPatientRequestService(PatientRequestService):
         )
 
     @staticmethod
-    def _get_tasks_data_structure(tasks: list[PatientTask]) -> dict:
+    def _get_tasks_data_structure(
+        tasks: list[PatientTask],
+    ) -> Dict[str, Dict[str, list[PatientTask]]]:
         """Return a nested dictionary to group tasks by
         patient_id and department (assigned_to).
         Args:
@@ -92,13 +100,18 @@ class DepartmentPatientRequestService(PatientRequestService):
 
         return grouped_by_patient_dept
 
-    def _handle_one_patient_request(self, patient_id, assigned_to, patient_dept_tasks):
+    def _handle_one_patient_request(
+        self,
+        patient_id: str,
+        assigned_to: str,
+        patient_dept_tasks: list[PatientTask],
+    ) -> str:
         """Create/update a patient request for a given patient_id and
         department (assigned_to) using the provided tasks in
         patient_dept_tasks"""
 
         # get existing request for the patient and department
-        existing_req: PatientRequest = self._get_open_patient_request(
+        existing_req: PatientRequest | None = self._get_open_patient_request(
             assigned_to=assigned_to,
             patient_id=patient_id,
         )
@@ -117,7 +130,8 @@ class DepartmentPatientRequestService(PatientRequestService):
 
     @staticmethod
     def _get_open_patient_request(
-        patient_id: str, assigned_to: str
+        patient_id: str,
+        assigned_to: str,
     ) -> PatientRequest | None:
         """Retrieves from the DB the open patient request for a given
         patient_id and department (assigned_to)"""
@@ -133,8 +147,10 @@ class DepartmentPatientRequestService(PatientRequestService):
         return PatientRequest(**patient_request_dict)
 
     def _remove_tasks_from_other_patient_requests(
-        self, task_ids: set, exclude_request_id: str
-    ):
+        self,
+        task_ids: set[str],
+        exclude_request_id: str,
+    ) -> None:
         """This method will:
         1. Remove the tasks in task_ids from patient requests in the DB, excluding exclude_request_id.
         2. If a request has no tasks left, it will change its status to `Closed`.
@@ -162,7 +178,8 @@ class DepartmentPatientRequestService(PatientRequestService):
 
     @staticmethod
     def _get_patient_request_by_task(
-        task_id: str, exclude_patient_request_id: str
+        task_id: str,
+        exclude_patient_request_id: str,
     ) -> PatientRequest | None:
         """Retrieves from the DB a patient request with the given task_id, if exists,
         excluding exclude_patient_request_id"""
