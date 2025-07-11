@@ -19,7 +19,7 @@ class TaskService:
 ```
 
 ### The Problem
-TinyDB lacks **bulk operations** and has no **Transaction Support**. This creates several issues:<br><br>
+TinyDB lacks **batch operations** and has no **Transaction Support**. This creates several issues:<br><br>
 
 - **Performance Issues**: Each task update requires a separate database operation, leading to multiple separate I/O operations against the DB.<br> The result is inefficient, especially with large datasets, resulting O(n) operations for n tasks.<br><br>
 - **Lack of Atomicity**: TinyDB does not support transactions, so it cannot guarantee atomicity, consistency, isolation, or durability (ACID).<br> Each upsert operation is isolated, meaning if one fails, the others may succeed, leading to inconsistent states.<br> This would be especially relevant if multiple threads or processes would write to a TinyDB dataabse.<br> As it does not offer built-in thread- or process-safety, concurrent writes would require external synchronization (e.g., file locks), otherwise corruption or data loss may occur.<br><br>
@@ -29,7 +29,7 @@ The current approach works for small datasets but scales poorly for production a
 
 ### Solution
 A more complete database solution, such as PostgreSQL, would offer:<br><br>
-- **Bulk Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.<br><br>
+- **Batch Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.<br><br>
 - **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.<br><br>
 
 ## Question 2: Performance issue in `process_tasks_update`
