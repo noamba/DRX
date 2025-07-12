@@ -121,8 +121,7 @@ In production scenarios, this leads to slower performance and higher resource us
 
 ### Solution
 Using a more robust database like PostgreSQL would allow **batch upserts**, enabling multiple <br> 
-records to be processed in a single operation. <br>
-This would reduce I/O overhead and improve performance.
+records to be processed in a single operation. This would reduce I/O overhead and improve performance.
 
 ### Additional TinyDB Limitations
 - Not safe for concurrent access across threads or processes.
