@@ -18,23 +18,21 @@ Alternatively, run the tests with Docker (installation guide [here](https://docs
 ```bash
 docker build -t patient-requests . && docker run patient-requests
 ```
-
-
 # Changes
 
-This file lists the changes made in the code and changes that were considered but not implemented due to time limit.
+This file lists the changes made in the code and changes that were considered but not implemented due to time constraints.
 
 ## Changes to all files
+
 ### Changes made
 
-- Ran `black` and `isort` on all files to ensure consistent formatting.
-- Ran `autoflake --remove-all-unused-imports --in-place --recursive .` to remove all unused imports.
+- Applied `black`, `autoflake`, and `isort` to ensure consistent formatting and cleanup.
 
 ### Changes considered, but not implemented
 
-- adding/correcting type hints to all functions and methods for better clarity and maintainability and run `mypy` 
-to check for type errors.
 - Running `flake8` to check for linting issues.
+- Adding or refining type hints across all functions and methods, and running `mypy` to check for type errors and improve maintainability.
+
 
 ## Changes to specific files
 These changes are grouped by the files they were made in.
