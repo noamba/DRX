@@ -61,6 +61,8 @@ These changes are grouped by the files they were made in.
 #### tests/models/patient_request.py
 - Added tests for the `PatientRequest` model, including coverage for the new `messages` and `medications` properties.
 
+#### tests/test_clinic_manager.py
+- Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
 
 ------- 
 
