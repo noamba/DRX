@@ -27,11 +27,11 @@ class DepartmentPatientRequestService(PatientRequestService):
         Returns:
             None
         """
-
+        # Group tasks by patient_id and department (assigned_to)
         tasks_by_patient_dept = self._get_tasks_data_structure(tasks)
 
-        # Iterate over the tasks (grouped by patient and department)
-        # and create/update patient requests
+        # Iterate over the patient-department tasks and create/update
+        # patient requests accordingly in the DB
         for patient_id, department_tasks in tasks_by_patient_dept.items():
             for assigned_to, patient_dept_tasks in department_tasks.items():
                 self._upload_changes_to_db(
