@@ -1,4 +1,4 @@
-# Running Tests, Code Changes, and Answers to In-Code Questions
+# Running Tests, Code Changes, Answers to In-Code Questions anf Final Thoughts
 
 # Running the Tests
 Tests can be run in two ways: with Python 3.11 or using Docker.<br>
@@ -98,7 +98,6 @@ These changes are grouped by the files they were made in.
 ---
 
 # Answers to questions in the code
-
 
 ## Question 1: TinyDB Limitations
 
