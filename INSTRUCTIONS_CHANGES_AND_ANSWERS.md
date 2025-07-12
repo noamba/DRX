@@ -124,10 +124,10 @@ Using a more robust database like PostgreSQL would allow **batch upserts**, enab
 records to be processed in a single operation. This would reduce I/O overhead and improve performance.
 
 ### Additional TinyDB Limitations
+TinyDB has several other limitations that make it unsuitable for production use, including:
 - Not safe for concurrent access across threads or processes.
 - No transaction support — updates are not atomic.
-- Limited querying and indexing capabilities.
-- Not suitable for production-scale applications.
+- Poor performance and scalability for large datasets.
 
 
 ## Question 2: Performance issue in `process_tasks_update`
