@@ -38,35 +38,35 @@ Ideally, all new code (including edge cases and error handling) would be tested.
 ## Noteworthy changes to specific files
 These changes are grouped by the files they were made in.
 
-### models/patient_task.py
+### `models/patient_task.py`
 
 - Added two properties to the `PatientTask` model: `messages` and `medications`.  <br>
   Purpose: to simplify the code and avoid duplication between `PatientRequest` and `PatientTask`.
 
-### services/patient_department_request_service.py
+### `services/patient_department_request_service.py`
 - Implemented the new grouping logic by both patient and department.
 
-### services/patient_request_service.py
+### `services/patient_request_service.py`
 - Refactored the `update_requests` method to reduce code duplication and follow the DRY principle.
 
-### services/task_service.py
+### `services/task_service.py`
 - Refactored `get_open_tasks` to accept a list of patient IDs for more efficient task filtering.
 - Added `get_tasks_by_ids` and `get_task_by_id`, supporting the new `PatientTask` properties.
 
-### services/utils.py
+### `services/utils.py`
 - Added `create_or_update_db` function, used in two places to handle database insert and update logic.
 
 ### Tests
 
-#### tests/models/patient_request.py
+#### `tests/models/patient_request.py`
 - Added tests for the `PatientRequest` model, including coverage for the new `messages` and `medications` properties.
 
-#### tests/test_clinic_manager.py and tests/test_clinic_manager_with_departments.py
-- Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
-
-#### tests/services/test_patient_department_request_service.py
+#### `tests/services/test_patient_department_request_service.py`
 - Added tests for `update_requests` and `_upload_changes_to_db`.
 - These tests do not provide full coverage for `DepartmentPatientRequestService`, but demonstrate testing approach and capabilities.
+
+#### `tests/test_clinic_manager.py` and `tests/test_clinic_manager_with_departments.py`
+- Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
 
 
 
