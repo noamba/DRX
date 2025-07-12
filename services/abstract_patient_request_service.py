@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from operator import attrgetter
+from typing import Literal
 from uuid import uuid4
 
 from models.patient_request import PatientRequest
@@ -20,7 +21,9 @@ class PatientRequestService(ABC):
         """Converts a list of PatientTask objects into a PatientRequest object for the given patient_id."""
         open_tasks: list[PatientTask] = [t for t in patient_tasks if t.status == "Open"]
 
-        req_status = "Open" if len(open_tasks) > 0 else "Closed"
+        req_status: Literal["Open"] | Literal["Closed"] = (
+            "Open" if len(open_tasks) > 0 else "Closed"
+        )
 
         # We only care about the closed tasks if all the tasks are closed and we are closing the request.
         req_tasks = open_tasks or patient_tasks
