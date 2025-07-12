@@ -155,24 +155,24 @@ class ClinicManager:
 
         self.patient_request_service.update_requests(open_tasks + newly_closed_tasks)
 ```
-
-### The problem
-The potential performance issue is that the code fetches *all* open tasks for *all* patients from the database on *every* method call AND keeps it in memory as a list.<br>This seems an inefficient approach because it loads and stores in memory potentially thousands of irrelevant task records for patients that will not have their patient requests modified.<br><br>
+### The Problem
+The current implementation fetches *all* open tasks for *all* patients from the database on *every* method call and stores them in memory as a list.  
+This approach is inefficient, as it loads thousands of potentially irrelevant task records — most of which won’t be used.
 
 ### Impact
-- Database query time scales with total number of open tasks (O(n))<br>
-- Memory usage increases unnecessarily<br>
-- Network/database bandwidth is wasted<br><br>
+- Query time scales linearly with the total number of open tasks (`O(n)`)
+- Unnecessary memory consumption
+- Increased load on the database and network
 
-As the system grows, this becomes problematic, leading to longer response times and higher resource consumption.<br><br>
+As the system grows, this leads to slower response times and higher resource usage.
 
-### Better approach
-- The code should only fetch the specific tasks needed for the update, e.g. only for the affected patients, rather than loading the entire open tasks dataset every time.<br><br>
-- This could be achieved by modifying the `get_open_tasks` method to accept a list of patient IDs or departments, allowing it to filter tasks more efficiently.<br><br>
-- In addition, as `get_open_tasks` returns a *generator*, it would make sense to try and use the generator without converting it to a list.<br>It would improve memory efficiency, especially if the number of open tasks is large.<br> But is not straightforward to do so, as the `update_requests` method expects a list.<br><br>
+### Improved Approach
+- Fetch only the tasks relevant to the update — specifically, those belonging to the affected patients.  
+  This was achieved by modifying `get_open_tasks` to accept a list of patient IDs for filtering.
+- Since `get_open_tasks` returns a *generator*, avoid converting it to a list.  
+  This improves memory efficiency, especially with large datasets.
 
-
-
+**Note:** Both improvements were implemented in the code.
 
 # Thoughts and dilemmas
 
