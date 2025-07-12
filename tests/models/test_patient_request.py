@@ -26,7 +26,7 @@ def create_patient_task(
         created_date = datetime(2023, 5, 1, 10, 0, 0)
     if updated_date is None:
         updated_date = created_date
-    
+
     return PatientTask(
         id=task_id,
         patient_id=patient_id,
@@ -126,7 +126,9 @@ class TestPatientRequestMessages:
         )
 
     @patch.object(TaskService, "__new__")
-    def test_messages_property_with_empty_task_ids(self, mock_task_service_new, empty_patient_request):
+    def test_messages_property_with_empty_task_ids(
+        self, mock_task_service_new, empty_patient_request
+    ):
         """Test messages property when task_ids is empty."""
         # Arrange
         mock_task_service = Mock()
@@ -169,7 +171,9 @@ class TestPatientRequestMedications:
         )
 
     @patch.object(TaskService, "__new__")
-    def test_medications_property_with_empty_task_ids(self, mock_task_service_new, empty_patient_request):
+    def test_medications_property_with_empty_task_ids(
+        self, mock_task_service_new, empty_patient_request
+    ):
         """Test medications property when task_ids is empty."""
         # Arrange
         mock_task_service = Mock()
