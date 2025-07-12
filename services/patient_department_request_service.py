@@ -7,6 +7,7 @@ from models.patient_task import PatientTask
 from tinydb import Query, where
 
 from .abstract_patient_request_service import PatientRequestService
+from .utils import create_or_update_db
 
 # Create a Query object for TinyDB queries
 item = Query()
@@ -122,12 +123,9 @@ class DepartmentPatientRequestService(PatientRequestService):
         # Create a new patient request object
         patient_request = self.to_patient_request(patient_id, patient_dept_tasks)
 
-        # Create OR update the request in the DB
-        if existing_request:
-            patient_request.id = existing_request.id
-
-        db.patient_requests.upsert(
-            patient_request.model_dump(), item.id == patient_request.id
+        create_or_update_db(
+            existing_request=existing_request,
+            patient_request=patient_request,
         )
 
         return patient_request.id
