@@ -42,7 +42,7 @@ These changes are grouped by the files they were made in.
   Purpose: to simplify the code and avoid duplication between `PatientRequest` and `PatientTask`.
 
 ### services/patient_department_request_service.py
-- Implemented the new grouping logic by both patient id and department.
+- Implemented the new grouping logic by both patient and department.
 
 
 
