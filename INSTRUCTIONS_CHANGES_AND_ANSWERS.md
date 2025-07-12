@@ -39,7 +39,6 @@ This section lists the changes made in the code and changes that were considered
 - Running `flake8` to identify additional linting issues.
 
 ## Noteworthy changes to specific files
-These changes are grouped by the files they were made in.
 
 ### `clinic_manager.py`
 - Refactored to use the updated `TaskService.get_open_tasks()` to:
