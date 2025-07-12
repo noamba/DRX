@@ -153,7 +153,7 @@ class ClinicManager:
         self.patient_request_service.update_requests(open_tasks + newly_closed_tasks)
 ```
 ### The Problem
-The current implementation fetches *all* open tasks for *all* patients from the database on *every* method call and stores them in memory as a list.  
+The current implementation fetches *all* open tasks for *all* patients from the database on *every* method call AND stores them in memory as a list.  
 This approach is inefficient, as it loads thousands of potentially irrelevant task records — most of which won’t be used.
 
 ### Impact
