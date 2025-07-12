@@ -5,7 +5,7 @@ Tests can be run in two ways: with Python 3.11 or using Docker.<br>
 
 ## Using Python 3.11
 The application was tested with Python 3.11.13, but any Python 3.11.x version should work.<br>
-Use a virtual environment to avoid package conflicts (setup assumed).<br>
+Use a virtual environment to avoid package conflicts.<br>
 Within a Python 3.11 environment, install dependencies and run tests with:
 ```bash
 pip install -r requirements_frozen.txt
@@ -23,20 +23,20 @@ docker build -t patient-requests . && docker run patient-requests
 
 # Changes
 
-This file lists the changes made in the code and changes that were considered but not implemented due to time constraints.
+This section lists the changes made in the code and changes that were considered but not implemented.
 
 ## Changes to all files
 
 ### Changes made
 - Applied `black`, `autoflake`, and `isort` to ensure consistent formatting and cleanup.
 
-### Changes considered, but not implemented
-- Added some tests to cover new functionality and demonstrate capabilities, but full test coverage was not included. <br> 
-  Ideally, both new and existing code (including edge cases and error handling) would be tested. <br> 
-  While high coverage is important, 100% coverage is not always necessary or practical. <br> 
-- Adding Google-style docstrings to all classes and methods for improved documentation.
-- Running `flake8` to identify additional linting issues.
+### Changes considered, but not implemented due to time constraints
+- Some tests were added to cover new functionality and demonstrate capabilities, but full test coverage was not included. <br> 
+  Ideally, both new and existing code (including edge cases and error handling) would be tested <br>
+  (noting that while high coverage is important, 100% coverage is not always necessary or practical). <br> 
+- Adding Google-style docstrings to classes and methods for improved documentation.
 - Adding or refining type hints across all functions and methods, and using `mypy` to check for type errors and improve maintainability.
+- Running `flake8` to identify additional linting issues.
 
 ## Noteworthy changes to specific files
 These changes are grouped by the files they were made in.
