@@ -65,7 +65,7 @@ These changes are grouped by the files they were made in.
 - Added tests for `update_requests` and `_upload_changes_to_db`.
 - These tests do not provide full coverage for `DepartmentPatientRequestService`, but demonstrate testing approach and capabilities.
 
-#### `tests/test_clinic_manager.py` and `tests/test_clinic_manager_with_departments.py`
+#### `tests/test_clinic_manager.py`, `tests/test_clinic_manager_with_departments.py` and `tests/utils.py`
 - Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
 
 
