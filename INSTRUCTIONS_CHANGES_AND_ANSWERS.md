@@ -100,11 +100,8 @@ These changes are grouped by the files they were made in.
 
 ## Answers to questions in the code
 
-This document contains answers the questions in the code.
 
----
-
-## Question 1: TinyDB Limitations
+### Question 1: TinyDB Limitations
 
 ### Code Context
 ```python
@@ -119,18 +116,21 @@ class TaskService:
 ```
 
 ### The Problem
-TinyDB lacks **batch operations** and has no **Transaction Support**. This creates several issues:<br><br>
-
-- **Performance Issues**: Each task update requires a separate database operation, leading to multiple separate I/O operations against the DB.<br> The result is inefficient, especially with large datasets, resulting O(n) operations for n tasks.<br><br>
-- **Lack of Atomicity**: TinyDB does not support transactions, so it cannot guarantee atomicity, consistency, isolation, or durability (ACID).<br> Each upsert operation is isolated, meaning if one fails, the others may succeed, leading to inconsistent states.<br> This would be especially relevant if multiple threads or processes would write to a TinyDB dataabse.<br> As it does not offer built-in thread- or process-safety, concurrent writes would require external synchronization (e.g., file locks), otherwise corruption or data loss may occur.<br><br>
+TinyDB lacks **batch operations** causing the need to loop over all tasks and upsert each one with a separate database operation. <br> 
+This leads to multiple I/O operations against the DB.<br> The result is inefficient, especially with large datasets, <br>
+resulting O(n) operations for n tasks.<br>
 
 ### Impact
-The current approach works for small datasets but scales poorly for production applications requiring efficient concurrent updates and ACID properties.<br><br>
+The current approach works for small datasets but scales poorly for production applications requiring efficient operation against the DB. <br>
 
 ### Solution
-A more complete database solution, such as PostgreSQL, would offer:<br><br>
-- **Batch Operations**: Allowing multiple tasks to be upserted in a single operation, significantly improving performance.<br><br>
-- **Transaction Support**: Ensuring that all operations are atomic, consistent, isolated, and durable, preventing partial updates and maintaining data integrity.<br><br>
+A more complete database solution, such as PostgreSQL, would offer batch operations, allowing multiple tasks to be upserted in a <br> 
+single operation, significantly improving performance.<br>
+
+Ofcourse there are other limitations of TinyDB, such as:
+- It is not safe for concurrent access across threads or processes.
+- There's no transaction support — updates are not atomic.
+
 
 ## Question 2: Performance issue in `process_tasks_update`
 
