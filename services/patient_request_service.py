@@ -25,14 +25,14 @@ class PerPatientRequestService(PatientRequestService):
         return PatientRequest(**result_dict)
 
     def update_requests(self, tasks: list[PatientTask]):
-        """Accepts a list of modified and open tasks and updates the relevant
-        PatientRequest objects in the DB."""
-        grouped_by_patent: dict[str, list[PatientTask]] = defaultdict(list)
+        """Accepts a list of tasks and updates or creates the relevant
+        patient requests in the DB."""
+        grouped_by_patient: dict[str, list[PatientTask]] = defaultdict(list)
 
         for task in tasks:
-            grouped_by_patent[task.patient_id].append(task)
+            grouped_by_patient[task.patient_id].append(task)
 
-        for patient_id, patient_tasks in grouped_by_patent.items():
+        for patient_id, patient_tasks in grouped_by_patient.items():
 
             existing_req: PatientRequest = self.get_open_patient_request(patient_id)
 
