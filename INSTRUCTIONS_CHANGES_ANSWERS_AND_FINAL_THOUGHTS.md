@@ -180,5 +180,6 @@ If this were a production system and more time were available, several areas cou
 - Evaluate and optimize the database schema and model relationships.  
   For example, avoid redundancy such as pharmacy data being duplicated in both task and request models.
 - Replace TinyDB with a more robust solution like PostgreSQL to improve scalability, performance, and reliability.
+- Use more reliable dependency and environment management for example [Poetry](https://python-poetry.org/) and [Conda](https://docs.conda.io/). 
 - Explore asynchronous processing to improve efficiency in database communication and overall responsiveness.
 - Expand test coverage to include new and existing functionality, edge cases, and potential failure scenarios.
