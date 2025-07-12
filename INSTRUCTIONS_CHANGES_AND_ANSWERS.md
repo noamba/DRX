@@ -4,7 +4,7 @@
 Tests can be run in two ways: with Python 3.11 or using Docker.<br>
 
 ## Using Python 3.11
-Tested with Python 3.11.13, but any Python 3.11.x version should work.<br>
+The application was tested with Python 3.11.13, but any Python 3.11.x version should work.<br>
 Use a virtual environment to avoid package conflicts (setup assumed).<br>
 Within a Python 3.11 environment, install dependencies and run tests with:
 ```bash
