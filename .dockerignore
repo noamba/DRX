@@ -1,0 +1,25 @@
+# Git
+.git/
+.gitignore
+
+# IDE files
+.idea/
+
+# Python cache
+__pycache__/
+
+# Testing
+.pytest_cache/
+
+# Documentation (not needed for runtime)
+README.md
+CHANGES.md
+NOTES.md
+ANSWERS.md
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Database file
+tinydb/db.json 
