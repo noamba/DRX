@@ -65,7 +65,7 @@ def empty_tasks():
 
 
 @pytest.fixture
-def test_patient_data():
+def patient_data():
     """Fixture providing common test patient data."""
     return {
         "patient1": {
@@ -110,11 +110,11 @@ def test_upload_changes_to_db(
     patient_key,
     expected_task_ids,
     request,
-    test_patient_data,
+        patient_data,
 ):
     """Test _upload_changes_to_db method with parametrized fixtures."""
     # Get test data from fixtures
-    patient_data = test_patient_data[patient_key]
+    patient_data = patient_data[patient_key]
     test_patient_id = patient_data["patient_id"]
     test_assigned_to = patient_data["assigned_to"]
     test_request_id = patient_data["request_id"]
