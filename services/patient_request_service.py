@@ -8,6 +8,7 @@ from models.patient_task import PatientTask
 from tinydb import Query, where
 
 from .abstract_patient_request_service import PatientRequestService
+from .utils import create_or_update_db
 
 task_date_getter = attrgetter("updated_date")
 
@@ -37,12 +38,10 @@ class PerPatientRequestService(PatientRequestService):
             grouped_by_patient[task.patient_id].append(task)
 
         for patient_id, patient_tasks in grouped_by_patient.items():
+            existing_request: PatientRequest = self.get_open_patient_request(patient_id)
+            patient_request = self.to_patient_request(patient_id, patient_tasks)
 
-            existing_req: PatientRequest = self.get_open_patient_request(patient_id)
-
-            pat_req = self.to_patient_request(patient_id, patient_tasks)
-
-            if existing_req:
-                pat_req.id = existing_req.id
-
-            db.patient_requests.upsert(pat_req.model_dump(), item.id == pat_req.id)
+            create_or_update_db(
+                existing_request=existing_request,
+                patient_request=patient_request,
+            )
