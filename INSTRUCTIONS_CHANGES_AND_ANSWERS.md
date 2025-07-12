@@ -37,8 +37,11 @@ This file lists the changes made in the code and changes that were considered bu
 ## Changes to specific files
 These changes are grouped by the files they were made in.
 
-
 ### models/patient_task.py
+
+- Added two properties to the `PatientTask` model: `messages` and `medications`.  <br>
+  Purpose: to simplify the code and avoid duplication between `PatientRequest` and `PatientTask`.
+
 
 
 ### services/patient_department_request_service.py
