@@ -1,3 +1,25 @@
+# Running Tests, Code Changes, and Answers to In-Code Questions
+
+## Running the Tests
+Tests can be run in two ways: with Python 3.11 or using Docker.<br>
+
+### Using Python 3.11
+Tested with Python 3.11.13, but any Python 3.11.x version should work.<br>
+Use a virtual environment to avoid package conflicts (setup assumed).<br>
+Within a Python 3.11 environment, install dependencies and run tests with:
+```bash
+pip install -r requirements_frozen.txt
+python -m pytest -vx .
+```
+
+### Using Docker
+Alternatively, run the tests with Docker (installation guide [here](https://docs.docker.com/engine/install/)):<br>
+
+```bash
+docker build -t patient-requests . && docker run patient-requests
+```
+
+
 # Changes
 
 This file lists the changes made in the code and changes that were considered but not implemented due to time limit.
@@ -25,11 +47,6 @@ These changes are grouped by the files they were made in.
 - Implemented the new grouping logic by both patient id and department.
 
 
-pip freeze > requirements_frozen.txt
-
-https://docs.docker.com/engine/install/
-
-docker build -t patient-requests . && docker run --rm patient-requests
 
 # Answers to questions in the code
 
