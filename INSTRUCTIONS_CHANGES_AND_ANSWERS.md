@@ -61,10 +61,7 @@ These changes are grouped by the files they were made in.
 ### `services/utils.py`
 - Added `create_or_update_db` function, used in two places to handle database insert and update logic.
 
-
-
-
-### Tests
+### Test files
 
 #### `tests/models/patient_request.py`
 - Added tests for the `PatientRequest` model, including coverage for the new `messages` and `medications` properties.
@@ -76,11 +73,24 @@ These changes are grouped by the files they were made in.
 #### `tests/test_clinic_manager.py`, `tests/test_clinic_manager_with_departments.py` and `tests/utils.py`
 - Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
 
+### Dependencies and Deployment Files
 
+#### `requirements.txt`
+- Updated to include linting and formatting tools (`black`, `autoflake`, `isort`) to maintain code quality and consistency.
 
-### `.gitignore`
-- Added `.gitignore` to exclude unnecessary files and directories from version control.
+#### `requirements_frozen.txt`
+- Generated using `pip freeze` to capture exact dependency versions, ensuring consistent environments across setups.
 
+#### `Dockerfile`
+- Added a Dockerfile to build a container image for easy deployment and isolated testing.
+
+### Other Files
+
+#### `.gitignore`
+- Added to exclude unnecessary files and directories from version control.
+
+#### `README.md`
+- Made minor formatting improvements for better readability and clarity.
 
 ------- 
 
