@@ -18,7 +18,22 @@ class DepartmentPatientRequestService(PatientRequestService):
 
     def update_requests(self, tasks: Generator[PatientTask, None, None]) -> None:
         """Accepts a generator of modified and open tasks and creates/updates the relevant
-        PatientRequest objects in the DB."""
+        PatientRequest objects in the DB.
+
+        This method:
+        1. Groups tasks by patient ID and department (assigned_to).
+        2. Iterates over the grouped tasks and creates/updates patient requests
+           for each patient-department combination.
+        3. Handles other patient requests when tasks are reassigned 
+            between departments.
+
+        Args:
+            tasks (Generator[PatientTask, None, None]): A generator yielding
+                PatientTask objects.
+
+        Returns:
+            None
+        """
 
         tasks_by_patient_dept = self._get_tasks_data_structure(tasks)
 
