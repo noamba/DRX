@@ -23,18 +23,17 @@ docker build -t patient-requests . && docker run patient-requests
 This file lists the changes made in the code and changes that were considered but not implemented due to time constraints.
 
 ## Changes to all files
-
 ### Changes made
 
 - Applied `black`, `autoflake`, and `isort` to ensure consistent formatting and cleanup.
 
 ### Changes considered, but not implemented
 
-- Running `flake8` to check for linting issues.
-- Adding or refining type hints across all functions and methods, and running `mypy` to check for type errors and improve maintainability.
+- Adding Google-style docstrings to all classes and methods for better documentation.
+- Running `flake8` to identify additional linting issues.
+- Adding or refining type hints across all functions and methods, and using `mypy` to check for type errors and improve maintainability.
 
-
-## Changes to specific files
+## Noteworthy changes to specific files
 These changes are grouped by the files they were made in.
 
 ### models/patient_task.py
