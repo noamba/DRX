@@ -83,7 +83,7 @@ This section lists the changes made in the code and changes that were considered
 #### `requirements_frozen.txt`
 - Generated using `pip freeze` to capture exact dependency versions, ensuring consistent environments across setups.
 
-#### `Dockerfile`
+#### `Dockerfile` and `.dockerignore`
 - Added a Dockerfile to build a container image for easy deployment and isolated testing without needing a local Python environment.
 
 ### Other Files
