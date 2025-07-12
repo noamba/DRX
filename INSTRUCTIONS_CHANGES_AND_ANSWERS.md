@@ -1,9 +1,9 @@
 # Running Tests, Code Changes, and Answers to In-Code Questions
 
-## Running the Tests
+# Running the Tests
 Tests can be run in two ways: with Python 3.11 or using Docker.<br>
 
-### Using Python 3.11
+## Using Python 3.11
 Tested with Python 3.11.13, but any Python 3.11.x version should work.<br>
 Use a virtual environment to avoid package conflicts (setup assumed).<br>
 Within a Python 3.11 environment, install dependencies and run tests with:
@@ -12,7 +12,7 @@ pip install -r requirements_frozen.txt
 python -m pytest -vx .
 ```
 
-### Using Docker
+## Using Docker
 Alternatively, run the tests with Docker (installation guide [here](https://docs.docker.com/engine/install/)):<br>
 
 ```bash
@@ -21,17 +21,16 @@ docker build -t patient-requests . && docker run patient-requests
 
 ---
 
-## Changes
+# Changes
 
 This file lists the changes made in the code and changes that were considered but not implemented due to time constraints.
 
 ## Changes to all files
-### Changes made
 
+### Changes made
 - Applied `black`, `autoflake`, and `isort` to ensure consistent formatting and cleanup.
 
 ### Changes considered, but not implemented
-
 - Added some tests to cover new functionality and demonstrate capabilities, but full test coverage was not included. <br> 
   Ideally, both new and existing code (including edge cases and error handling) would be tested. <br> 
   While high coverage is important, 100% coverage is not always necessary or practical. <br> 
@@ -77,7 +76,7 @@ These changes are grouped by the files they were made in.
 #### `tests/test_clinic_manager.py`, `tests/test_clinic_manager_with_departments.py` and `tests/utils.py`
 - Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
 
-### Dependencies and Deployment Files
+### Dependencies and deployment files
 
 #### `requirements.txt`
 - Updated to include linting and formatting tools (`black`, `autoflake`, `isort`) to maintain code quality and consistency.
@@ -98,10 +97,10 @@ These changes are grouped by the files they were made in.
 
 ---
 
-## Answers to questions in the code
+# Answers to questions in the code
 
 
-### Question 1: TinyDB Limitations
+## Question 1: TinyDB Limitations
 
 ### Code Context
 ```python
