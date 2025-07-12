@@ -33,7 +33,7 @@ class ClinicManager:
 
         # Question: What is a potential performance issue with this code ?
         # Note: The code was changed and the performance issue was resolved,
-        #   see explanation in ANSWERS.md
+        #   see explanation in INSTRUCTIONS_CHANGES_AND_ANSWERS.md
 
         # 2 - *All* open tasks for the *affected patients* (from the updated DB)
         affected_patients_ids = {t.patient_id for t in tasks}
