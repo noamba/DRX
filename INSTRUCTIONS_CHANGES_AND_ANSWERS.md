@@ -44,7 +44,8 @@ These changes are grouped by the files they were made in.
 ### services/patient_department_request_service.py
 - Implemented the new grouping logic by both patient and department.
 
-
+### services/patient_request_service.py
+- Refactored the `update_requests` method to reduce code duplication and follow the DRY principle.
 
 # Answers to questions in the code
 
