@@ -113,22 +113,24 @@ class TaskService:
         for task in tasks:
             db.tasks.upsert(task.model_dump(), Task.id == task.id)
 ```
-
 ### The Problem
-TinyDB lacks **batch operations** causing the need to loop over all tasks and upsert each one with a separate database operation. <br> 
-This leads to multiple I/O operations against the DB.<br> The result is inefficient, especially with large datasets, <br>
-resulting O(n) operations for n tasks.<br>
+TinyDB lacks **batch operation** support, requiring a loop to upsert each task individually.  
+This results in multiple I/O operations and leads to `O(n)` performance for `n` tasks — inefficient for large datasets.
 
 ### Impact
-The current approach works for small datasets but scales poorly for production applications requiring efficient operation against the DB. <br>
+While the current approach is sufficient for small datasets, it does not scale well.  
+In production scenarios, this leads to slower performance and higher resource usage.
 
 ### Solution
-A more complete database solution, such as PostgreSQL, would offer batch operations, allowing multiple tasks to be upserted in a <br> 
-single operation, significantly improving performance.<br>
+Using a more robust database like PostgreSQL would allow **batch upserts**, enabling multiple <br> 
+records to be processed in a single operation. <br>
+This would reduce I/O overhead and improve performance.
 
-Ofcourse there are other limitations of TinyDB, such as:
-- It is not safe for concurrent access across threads or processes.
-- There's no transaction support — updates are not atomic.
+### Additional TinyDB Limitations
+- Not safe for concurrent access across threads or processes.
+- No transaction support — updates are not atomic.
+- Limited querying and indexing capabilities.
+- Not suitable for production-scale applications.
 
 
 ## Question 2: Performance issue in `process_tasks_update`
