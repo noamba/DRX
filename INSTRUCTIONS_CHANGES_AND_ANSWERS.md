@@ -38,6 +38,11 @@ Ideally, all new code (including edge cases and error handling) would be tested.
 ## Noteworthy changes to specific files
 These changes are grouped by the files they were made in.
 
+### `clinic_manager.py`
+- Refactored to use the updated `TaskService.get_open_tasks()` to:
+  - Fetch only relevant open patient tasks, improving performance and memory usage.
+  - Avoid loading all open tasks into memory, which is inefficient for large datasets.
+
 ### `models/patient_task.py`
 
 - Added two properties to the `PatientTask` model: `messages` and `medications`.  <br>
@@ -56,6 +61,9 @@ These changes are grouped by the files they were made in.
 ### `services/utils.py`
 - Added `create_or_update_db` function, used in two places to handle database insert and update logic.
 
+
+
+
 ### Tests
 
 #### `tests/models/patient_request.py`
@@ -68,6 +76,10 @@ These changes are grouped by the files they were made in.
 #### `tests/test_clinic_manager.py`, `tests/test_clinic_manager_with_departments.py` and `tests/utils.py`
 - Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
 
+
+
+### `.gitignore`
+- Added `.gitignore` to exclude unnecessary files and directories from version control.
 
 
 ------- 
