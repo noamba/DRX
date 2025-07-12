@@ -51,7 +51,8 @@ These changes are grouped by the files they were made in.
 - Refactored `get_open_tasks` to accept a list of patient IDs for more efficient task filtering.
 - Added `get_tasks_by_ids` and `get_task_by_id`, supporting the new `PatientTask` properties.
 
-
+### services/utils.py
+- Added `create_or_update_db` function, used in two places to handle database insert and update logic.
 
 ------- 
 
