@@ -18,7 +18,10 @@ Alternatively, run the tests with Docker (installation guide [here](https://docs
 ```bash
 docker build -t patient-requests . && docker run patient-requests
 ```
-# Changes
+
+---
+
+## Changes
 
 This file lists the changes made in the code and changes that were considered but not implemented due to time constraints.
 
@@ -93,9 +96,9 @@ These changes are grouped by the files they were made in.
 #### `README.md`
 - Made minor formatting improvements for better readability and clarity.
 
-------- 
+---
 
-# Answers to questions in the code
+## Answers to questions in the code
 
 This document contains answers the questions in the code.
 
