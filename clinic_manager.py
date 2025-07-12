@@ -41,6 +41,6 @@ class ClinicManager:
             patient_ids=affected_patients_ids
         )
 
-        self.patient_request_service.update_requests(
-            chain(all_open_tasks, newly_closed_tasks)
-        )
+        relevant_tasks = (task for task in chain(all_open_tasks, newly_closed_tasks))
+
+        self.patient_request_service.update_requests(tasks=relevant_tasks)
