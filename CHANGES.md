@@ -25,3 +25,9 @@ These changes are grouped by the files they were made in.
 - Implemented the new grouping logic by both patient id and department.
 
 
+pip freeze > requirements_frozen.txt
+
+https://docs.docker.com/engine/install/
+
+docker build -t patient-requests . && docker run --rm patient-requests
+
