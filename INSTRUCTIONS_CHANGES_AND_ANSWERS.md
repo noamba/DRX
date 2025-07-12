@@ -1,4 +1,4 @@
-# Running Tests, Code Changes, Answers to In-Code Questions anf Final Thoughts
+# Running Tests, Code Changes, Answers to In-Code Questions and Final Thoughts
 
 # Running the Tests
 Tests can be run in two ways: with Python 3.11 or using Docker.<br>
