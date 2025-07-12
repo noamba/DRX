@@ -1,6 +1,6 @@
 # Running Tests, Code Changes, Answers to In-Code Questions and Final Thoughts
 
-# Running the Tests
+# Running tests
 Tests can be run in two ways: with Python 3.11 or using Docker.<br>
 
 ## Using Python 3.11
