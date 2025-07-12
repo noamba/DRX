@@ -46,12 +46,12 @@ This section lists the changes made in the code and changes that were considered
   - Avoid loading all open tasks into memory, which is inefficient for large datasets.
 
 ### `models/patient_task.py`
-
-- Added two properties to the `PatientTask` model: `messages` and `medications`.  <br>
-  Purpose: to simplify the code and avoid duplication between `PatientRequest` and `PatientTask`.
+- Added two properties to the `PatientTask` model: `messages` and `medications`  <br>
+  to avoid duplication between `PatientRequest` and `PatientTask` and avoid adding code to handle <br> 
+  changes when tasks are closed or moved.
 
 ### `services/patient_department_request_service.py`
-- Implemented the new grouping logic by both patient and department.
+- Implemented the new grouping logic by both patient _and_ department.
 
 ### `services/patient_request_service.py`
 - Refactored the `update_requests` method to reduce code duplication and follow the DRY principle.
@@ -73,7 +73,7 @@ This section lists the changes made in the code and changes that were considered
 - These tests do not provide full coverage for `DepartmentPatientRequestService`, but demonstrate testing approach and capabilities.
 
 #### `tests/test_clinic_manager.py`, `tests/test_clinic_manager_with_departments.py` and `tests/utils.py`
-- Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across multiple tests.
+- Moved and updated the `count_open_patient_requests` function to `tests/utils.py` for reuse across both tests.
 
 ### Dependencies and deployment files
 
