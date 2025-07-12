@@ -29,7 +29,9 @@ This file lists the changes made in the code and changes that were considered bu
 
 ### Changes considered, but not implemented
 
-- Adding Google-style docstrings to all classes and methods for better documentation.
+- Added some tests to cover new functionality and demonstrate capabilities, but did not include full test coverage. <br>
+Ideally, all new code (including edge cases and error handling) would be tested.
+- Adding Google-style docstrings to all classes and methods for improved documentation.
 - Running `flake8` to identify additional linting issues.
 - Adding or refining type hints across all functions and methods, and using `mypy` to check for type errors and improve maintainability.
 
