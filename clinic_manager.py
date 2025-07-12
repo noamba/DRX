@@ -1,3 +1,6 @@
+from itertools import chain
+from typing import Generator
+
 from models import TaskInput
 from services.abstract_patient_request_service import PatientRequestService
 from services.patient_request_service import PerPatientRequestService
@@ -21,11 +24,23 @@ class ClinicManager:
         if not tasks:
             return
 
+        # update DB with the newly modified tasks
         self.task_service.updates_tasks(tasks)
 
-        newly_closed_tasks = [t for t in tasks if t.status == "Closed"]
+        # Get the tasks that will require updating of patient requests.
+        # 1 - The newly closed tasks
+        newly_closed_tasks = (t for t in tasks if t.status == "Closed")
 
         # Question: What is a potential performance issue with this code ?
-        open_tasks = list(self.task_service.get_open_tasks())
+        # Note: The code was changed and the performance issue was resolved,
+        #   see explanation in ANSWERS.md
 
-        self.patient_request_service.update_requests(open_tasks + newly_closed_tasks)
+        # 2 - *All* open tasks for the *affected patients* (from the updated DB)
+        affected_patients_ids = {t.patient_id for t in tasks}
+        all_open_tasks: Generator = self.task_service.get_open_tasks(
+            patient_ids=affected_patients_ids
+        )
+
+        self.patient_request_service.update_requests(
+            chain(all_open_tasks, newly_closed_tasks)
+        )

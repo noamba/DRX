@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Dict
+from typing import Dict, Generator
 
 import db.db_tinydb as db
 from models.patient_request import PatientRequest
@@ -15,8 +15,8 @@ query = Query()
 class DepartmentPatientRequestService(PatientRequestService):
     """Service for managing patient requests with department support."""
 
-    def update_requests(self, tasks: list[PatientTask]) -> None:
-        """Accepts a list of modified and open tasks and creates/updates the relevant
+    def update_requests(self, tasks: Generator[PatientTask, None, None]) -> None:
+        """Accepts a generator of modified and open tasks and creates/updates the relevant
         PatientRequest objects in the DB."""
 
         tasks_by_patient_dept = self._get_tasks_data_structure(tasks)

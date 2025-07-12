@@ -1,5 +1,6 @@
 from collections import defaultdict
 from operator import attrgetter
+from typing import Generator
 
 import db.db_tinydb as db
 from models.patient_request import PatientRequest
@@ -24,8 +25,8 @@ class PerPatientRequestService(PatientRequestService):
 
         return PatientRequest(**result_dict)
 
-    def update_requests(self, tasks: list[PatientTask]):
-        """Accepts a list of tasks and updates or creates the relevant
+    def update_requests(self, tasks: Generator[PatientTask, None, None]):
+        """Accepts a generator of tasks and updates or creates the relevant
         patient requests in the DB."""
         grouped_by_patient: dict[str, list[PatientTask]] = defaultdict(list)
 

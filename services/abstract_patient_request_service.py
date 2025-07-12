@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from operator import attrgetter
-from typing import Literal
+from typing import Generator, Literal
 from uuid import uuid4
 
 from models.patient_request import PatientRequest
@@ -13,8 +13,8 @@ class PatientRequestService(ABC):
     """Abstract base class for patient request services."""
 
     @abstractmethod
-    def update_requests(self, tasks: list[PatientTask]):
-        """Accepts a list of modified and open tasks and updates the relevant PatientRequest objects."""
+    def update_requests(self, tasks: Generator[PatientTask, None, None]):
+        """Accepts a generator of modified and open tasks and updates the relevant PatientRequest objects."""
         raise NotImplementedError
 
     def to_patient_request(self, patient_id, patient_tasks):

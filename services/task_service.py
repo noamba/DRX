@@ -1,5 +1,5 @@
-from collections.abc import Iterable
 from operator import attrgetter
+from typing import Generator
 
 import db.db_tinydb as db
 from models.patient_task import PatientTask
@@ -7,7 +7,8 @@ from tinydb import Query, where
 
 task_date_getter = attrgetter("updated_date")
 
-Task = Query()
+# Create a Query object for TinyDB queries
+item = Query()
 
 
 class TaskService:
@@ -18,13 +19,17 @@ class TaskService:
         # Question : This code is the result of a limitation by TinyDB. What is the issue and what feature
         # would a more complete DB solution offer ?
         for task in tasks:
-            db.tasks.upsert(task.model_dump(), Task.id == task.id)
+            db.tasks.upsert(task.model_dump(), item.id == task.id)
 
-    def get_open_tasks(self) -> Iterable[PatientTask]:
-        """Returns a generator of open PatientTask objects retrieved from the database."""
+    def get_open_tasks(
+        self, patient_ids: set[str]
+    ) -> Generator[PatientTask, None, None]:
+        """Returns a generator of open patient tasks for patient_ids retrieved from the database."""
         return (
             PatientTask(**task_doc)
-            for task_doc in db.tasks.search(where("status") == "Open")
+            for task_doc in db.tasks.search(
+                (where("status") == "Open") & (item.patient_id.one_of(patient_ids))
+            )
         )
 
     def get_task_by_id(self, task_id: str) -> PatientTask | None:
