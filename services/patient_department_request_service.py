@@ -96,12 +96,12 @@ class DepartmentPatientRequestService(PatientRequestService):
                     }
                 }
         """
-        grouped_by_patient_dept = defaultdict(lambda: defaultdict(list))
+        nested_patient_dept_tasks = defaultdict(lambda: defaultdict(list))
 
         for task in tasks:
-            grouped_by_patient_dept[task.patient_id][task.assigned_to].append(task)
+            nested_patient_dept_tasks[task.patient_id][task.assigned_to].append(task)
 
-        return grouped_by_patient_dept
+        return nested_patient_dept_tasks
 
     def _process_patient_request(
         self,
