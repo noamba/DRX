@@ -56,6 +56,12 @@ These changes are grouped by the files they were made in.
 ### services/utils.py
 - Added `create_or_update_db` function, used in two places to handle database insert and update logic.
 
+### Tests
+
+#### tests/models/patient_request.py
+- Added tests for the `PatientRequest` model, including coverage for the new `messages` and `medications` properties.
+
+
 ------- 
 
 # Answers to questions in the code
