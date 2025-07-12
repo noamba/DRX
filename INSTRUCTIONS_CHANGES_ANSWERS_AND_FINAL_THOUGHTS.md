@@ -13,7 +13,7 @@ python -m pytest -vx .
 ```
 
 ## Using Docker
-Alternatively, run the tests with Docker (installation guide [here](https://docs.docker.com/engine/install/)):<br>
+Alternatively, build a container and run the tests with Docker (installation guide [here](https://docs.docker.com/engine/install/)):<br>
 
 ```bash
 docker build -t patient-requests . && docker run patient-requests
