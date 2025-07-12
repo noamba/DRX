@@ -5,11 +5,14 @@ from typing import Generator
 import db.db_tinydb as db
 from models.patient_request import PatientRequest
 from models.patient_task import PatientTask
-from tinydb import where
+from tinydb import Query, where
 
 from .abstract_patient_request_service import PatientRequestService
 
 task_date_getter = attrgetter("updated_date")
+
+# Create a Query object for TinyDB queries
+item = Query()
 
 
 class PerPatientRequestService(PatientRequestService):
@@ -39,10 +42,7 @@ class PerPatientRequestService(PatientRequestService):
 
             pat_req = self.to_patient_request(patient_id, patient_tasks)
 
-            if not existing_req:
-                db.patient_requests.insert(pat_req.model_dump())
-            else:
+            if existing_req:
                 pat_req.id = existing_req.id
-                db.patient_requests.update(
-                    pat_req.model_dump(), where("id") == existing_req.id
-                )
+
+            db.patient_requests.upsert(pat_req.model_dump(), item.id == pat_req.id)

@@ -9,7 +9,7 @@ from tinydb import Query, where
 from .abstract_patient_request_service import PatientRequestService
 
 # Create a Query object for TinyDB queries
-query = Query()
+item = Query()
 
 
 class DepartmentPatientRequestService(PatientRequestService):
@@ -121,14 +121,14 @@ class DepartmentPatientRequestService(PatientRequestService):
         )
         # Create a new patient request object
         patient_request = self.to_patient_request(patient_id, patient_dept_tasks)
+
         # Create OR update the request in the DB
-        if not existing_request:
-            db.patient_requests.insert(patient_request.model_dump())
-        else:
+        if existing_request:
             patient_request.id = existing_request.id
-            db.patient_requests.update(
-                patient_request.model_dump(), where("id") == existing_request.id
-            )
+
+        db.patient_requests.upsert(
+            patient_request.model_dump(), item.id == patient_request.id
+        )
 
         return patient_request.id
 
@@ -191,7 +191,7 @@ class DepartmentPatientRequestService(PatientRequestService):
         excluding exclude_patient_request_id
         TODO: Improve documentation as above"""
         patient_requests = db.patient_requests.search(
-            (query.task_ids.any(task_id)) & (query.id != exclude_patient_request_id)
+            (item.task_ids.any(task_id)) & (item.id != exclude_patient_request_id)
         )
 
         if not patient_requests:
