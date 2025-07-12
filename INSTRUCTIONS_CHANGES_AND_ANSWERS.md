@@ -47,6 +47,9 @@ These changes are grouped by the files they were made in.
 ### services/patient_request_service.py
 - Refactored the `update_requests` method to reduce code duplication and follow the DRY principle.
 
+### services/task_service.py
+- Refactored `get_open_tasks` to accept a list of patient IDs for more efficient task filtering.
+- Added `get_tasks_by_ids` and `get_task_by_id`, supporting the new `PatientTask` properties.
 
 
 
