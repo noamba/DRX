@@ -9,5 +9,5 @@ The task involved:
 
 See detailed READMEs:
 
-- [Noam's usage instructions, changes made, answers and thoughts](README_NOAMS_USAGE_INSTRUCTIONS_CHANGES_ANSWERS_AND_FINAL_THOUGHTS.md)
 - [The original task instructions](README_ORIGINAL_TASK_INSTRUCTIONS.md)
+- [Noam's usage instructions, changes made, answers and thoughts](README_NOAMS_USAGE_INSTRUCTIONS_CHANGES_ANSWERS_AND_FINAL_THOUGHTS.md)
