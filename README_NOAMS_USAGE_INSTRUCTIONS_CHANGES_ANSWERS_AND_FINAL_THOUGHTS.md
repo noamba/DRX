@@ -1,5 +1,7 @@
 # Running Tests, Code Changes, Answers to In-Code Questions and Final Thoughts
 
+## Intro
+
 Some of the code in this repo was created to address the requirements of a hiring process task defined in `README_ORIGINAL_TASK_INSTRUCTIONS.md`. <br>
 This task involved modifying the existing code to support grouping patient tasks by both patient ID and department, <br>
 answering a few questions in the code, making some optimizations, testing, deployment etc. <br>
