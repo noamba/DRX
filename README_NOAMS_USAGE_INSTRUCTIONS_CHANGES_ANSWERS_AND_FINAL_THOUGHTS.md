@@ -1,6 +1,6 @@
 # Running Tests, Code Changes, Answers to In-Code Questions and Final Thoughts
 
-This PR was created to address the requirements of a hiring process task defined in `README_ORIGINAL_TASK_INSTRUCTIONS.md`. <br>
+Some of the code in this repo was created to address the requirements of a hiring process task defined in `README_ORIGINAL_TASK_INSTRUCTIONS.md`. <br>
 This task involved modifying the existing code to support grouping patient tasks by both patient ID and department, <br>
 answering a few questions in the code, making some optimizations, testing, deployment etc. <br>
 Below are instructions for running the tests, the changes made along with answers to the specific questions in the <br>
@@ -11,6 +11,7 @@ The main change was made to the following file: `services/patient_department_req
 It's not a perfect solution, but it demonstrates the ability to understand the requirements, and <br>
 offer a solution that is both functional and maintainable. <br>
 
+The original insturctions for the task are in this file: `README_ORIGINAL_TASK_INSTRUCTIONS.md`
 
 
 # Running tests
